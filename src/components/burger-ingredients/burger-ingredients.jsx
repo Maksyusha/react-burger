@@ -12,9 +12,20 @@ function BurgerIngredients(props) {
 
   const [current, setCurrent] = useState('bun');
 
-  const bunRef = createRef()
-  const sauceRef = createRef()
-  const mainRef = createRef()
+  const typeRef = createRef();
+  const bunRef = createRef();
+  const sauceRef = createRef();
+  const mainRef = createRef();
+
+  function changeAnotherType(evt) {
+    if (evt.target.scrollTop > 750) {
+      setCurrent('main');
+    } else if (evt.target.scrollTop > 250) {
+      setCurrent('sauce');
+    } else {
+      setCurrent('bun');
+    }
+  }
 
   function scrollAnotherType(evt) {
     setCurrent(evt)
@@ -32,10 +43,10 @@ function BurgerIngredients(props) {
     <div>
       <h1 className='text text_type_main-large mt-10'>Соберите бургер</h1>
       <IngredientsMenu current={current} onClick={scrollAnotherType}/>
-      <ul className={ingredientsStyles['burger-ingr__list']}>
-        <IngredientsType innerRef={bunRef} type='bun' data={dataBun} title='Булки' onClick={props.onClick}/>
-        <IngredientsType innerRef={sauceRef} type='sauce' data={dataSauce} title='Соусы' onClick={props.onClick}/>
-        <IngredientsType innerRef={mainRef} type='main' data={dataMain} title='Начинки' onClick={props.onClick}/>
+      <ul ref={typeRef} className={ingredientsStyles['burger-ingr__list']} onScroll={changeAnotherType}>
+        <IngredientsType innerRef={bunRef} data={dataBun} title='Булки' onClick={props.onClick}/>
+        <IngredientsType innerRef={sauceRef} data={dataSauce} title='Соусы' onClick={props.onClick}/>
+        <IngredientsType innerRef={mainRef} data={dataMain} title='Начинки' onClick={props.onClick}/>
       </ul>
     </div>
   )
