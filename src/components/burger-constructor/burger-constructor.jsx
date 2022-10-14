@@ -32,7 +32,7 @@ function BurgerConstructor(props) {
           type='top'
           isLocked={true}
           thumbnail={bun.image}
-          text={bun.name}
+          text={`${bun.name} (верх)`}
           price={bun.price}
         />
       </div>}
@@ -48,7 +48,7 @@ function BurgerConstructor(props) {
           type='bottom'
           isLocked={true}
           thumbnail={bun.image}
-          text={bun.name}
+          text={`${bun.name} (низ)`}
           price={bun.price}
         />
       </div>}
@@ -63,10 +63,13 @@ function BurgerConstructor(props) {
 
 
 BurgerConstructor.propTypes = {
-  thumbnail: PropTypes.string,
-  text: PropTypes.string,
-  price: PropTypes.number,
-  onClick: PropTypes.func
+  data: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    __v: PropTypes.number.isRequired
+  })).isRequired
 }
 
 

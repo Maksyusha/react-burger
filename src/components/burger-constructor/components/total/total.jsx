@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import totalStyles from './total.module.css';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -18,6 +19,14 @@ function Total(props) {
       </div>
     </li>
   )
+}
+
+
+
+Total.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({
+    price: PropTypes.number.isRequired
+  }))
 }
 
 

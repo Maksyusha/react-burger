@@ -17,9 +17,12 @@ function IngredientsType(props) {
 
 
 
-IngredientsItem.propTypes = {
-  onClick: PropTypes.func,
-  data: PropTypes.object
+IngredientsType.propTypes = {
+  type: PropTypes.string.isRequired,
+  innerRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+  title: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 

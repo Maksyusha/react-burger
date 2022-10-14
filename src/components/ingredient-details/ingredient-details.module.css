@@ -1,25 +1,15 @@
 .ingr-det {
   min-width: 640px;
+  padding: 52px 40px;
   background-color: #1C1C21;
   border-radius: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1;
 }
 
-.ingr-det__container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ingr-det_button-close {
-  height: 24px;
-  padding: 0;
-  border: 0;
-  background-color: transparent;
+.ingr-det__title {
+  align-self: flex-start;
 }
 
 .ingr-det__list {

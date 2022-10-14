@@ -21,10 +21,13 @@ function IngredientsItem(props) {
 
 
 IngredientsItem.propTypes = {
-  onClick: PropTypes.func,
-  count: PropTypes.number,
-  price: PropTypes.number,
-  name: PropTypes.string
+  data: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    __v: PropTypes.number.isRequired
+  }).isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 

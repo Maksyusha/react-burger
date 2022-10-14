@@ -5,6 +5,7 @@ import {IngredientsMenu} from './components/ingredients-menu/ingredients-menu.js
 import {IngredientsType} from './components/ingredients-type/ingredients-type.jsx';
 
 function BurgerIngredients(props) {
+
   const dataBun = props.data.filter((item) => item.type === 'bun');
   const dataSauce = props.data.filter((item) => item.type === 'sauce');
   const dataMain = props.data.filter((item) => item.type === 'main');
@@ -43,9 +44,10 @@ function BurgerIngredients(props) {
 
 
 BurgerIngredients.propTypes = {
-  current: PropTypes.string,
-  data: PropTypes.arrayOf(PropTypes.object),
-  onClick: PropTypes.func
+  data: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired,
+  })).isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 

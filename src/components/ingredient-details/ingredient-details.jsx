@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types';
 import ingrDetStyles from './ingredient-details.module.css';
-import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
 
 
@@ -7,13 +7,8 @@ function IngredientDetails(props) {
   const {image_large, name, calories, proteins, fat, carbohydrates} = props.data;
 
   return (
-    <div className={`${ingrDetStyles['ingr-det']} pt-10 pl-10 pb-15 pr-10`}>
-      <div className={ingrDetStyles['ingr-det__container']}>
-        <h2 className='text text_type_main-large'>Детали ингредиента</h2>
-        <button className={ingrDetStyles['ingr-det_button-close']} type='button' onClick={props.onButtonClick}>
-          <CloseIcon/>
-        </button>
-      </div>
+    <div className={ingrDetStyles['ingr-det']}>
+      <h2 className={`${ingrDetStyles['ingr-det__title']} text text_type_main-large`}>Детали ингредиента</h2>
       <img className='mb-4' src={image_large} alt={name}/>
       <p className='text text_type_main-medium mb-8'>{name}</p>
       <ul className={`${ingrDetStyles['ingr-det__list']} text text_type_main-default text_color_inactive`}>
@@ -36,6 +31,19 @@ function IngredientDetails(props) {
       </ul>
     </div>
   )
+}
+
+
+
+IngredientDetails.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+    image_large: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 
