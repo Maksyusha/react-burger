@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { ingredientTypes } from '../../utils/types.js';
 import ingrDetStyles from './ingredient-details.module.css';
 
 
@@ -36,14 +36,7 @@ function IngredientDetails(props) {
 
 
 IngredientDetails.propTypes = {
-  data: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    image_large: PropTypes.string.isRequired,
-  }).isRequired,
+  data: ingredientTypes
 }
 
 

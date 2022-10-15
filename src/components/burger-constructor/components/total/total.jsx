@@ -1,4 +1,5 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { ingredientTypes } from '../../../../utils/types.js';
 import totalStyles from './total.module.css';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -24,9 +25,7 @@ function Total(props) {
 
 
 Total.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    price: PropTypes.number.isRequired
-  }))
+  data: PropTypes.arrayOf(ingredientTypes)
 }
 
 

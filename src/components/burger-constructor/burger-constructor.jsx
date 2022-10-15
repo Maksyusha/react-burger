@@ -1,4 +1,5 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { ingredientTypes } from '../../utils/types.js';
 import constrStyles from './burger-constructor.module.css'
 import {ConstructorElement, DragIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Total} from './components/total/total.jsx'
@@ -63,13 +64,7 @@ function BurgerConstructor(props) {
 
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    __v: PropTypes.number.isRequired
-  })).isRequired
+  data: PropTypes.arrayOf(ingredientTypes).isRequired
 }
 
 

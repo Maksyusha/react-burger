@@ -40,7 +40,8 @@ const modalsContainer = document.querySelector('#modals');
 
 
 Modal.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  onClose: PropTypes.func.isRequired
 }
 
 

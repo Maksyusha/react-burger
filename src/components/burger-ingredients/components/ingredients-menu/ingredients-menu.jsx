@@ -24,8 +24,8 @@ function IngredientsMenu(props) {
 
 
 IngredientsMenu.propTypes = {
-  active: PropTypes.string,
-  onClick: PropTypes.func
+  current: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 

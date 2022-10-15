@@ -1,5 +1,6 @@
 import {useState, createRef} from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { ingredientTypes } from '../../utils/types.js';
 import ingredientsStyles from './burger-ingredients.module.css';
 import {IngredientsMenu} from './components/ingredients-menu/ingredients-menu.jsx';
 import {IngredientsType} from './components/ingredients-type/ingredients-type.jsx';
@@ -55,9 +56,7 @@ function BurgerIngredients(props) {
 
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-  })).isRequired,
+  data: PropTypes.arrayOf(ingredientTypes).isRequired,
   onClick: PropTypes.func.isRequired
 }
 

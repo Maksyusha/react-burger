@@ -1,4 +1,5 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { ingredientTypes } from '../../../../utils/types.js';
 import typeStyles from './ingredients-type.module.css';
 import {IngredientsItem} from './components/ingredients-item/ingredients-item.jsx'
 
@@ -20,7 +21,7 @@ function IngredientsType(props) {
 IngredientsType.propTypes = {
   innerRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
   title: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(ingredientTypes).isRequired,
   onClick: PropTypes.func.isRequired
 }
 
