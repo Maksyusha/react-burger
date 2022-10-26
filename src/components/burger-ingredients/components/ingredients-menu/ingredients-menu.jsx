@@ -1,11 +1,9 @@
-import PropTypes from 'prop-types'
-import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
+import PropTypes from 'prop-types';
+import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 
 
 
-function IngredientsMenu(props) {
-  const {current, onClick} = props;
-
+function IngredientsMenu({current, onClick}) {
   return (
     <div className='mt-5 mb-10' style={{ display: 'flex' }}>
       <Tab value='bun' active={current === 'bun'} onClick={onClick}>

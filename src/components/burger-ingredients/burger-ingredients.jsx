@@ -1,4 +1,4 @@
-import {useState, createRef} from 'react';
+import {createRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import { ingredientTypes } from '../../utils/types.js';
 import ingredientsStyles from './burger-ingredients.module.css';
@@ -18,7 +18,7 @@ function BurgerIngredients(props) {
   const sauceRef = createRef();
   const mainRef = createRef();
 
-  function changeAnotherType(evt) {
+  function changeTypeByScroll(evt) {
     if (evt.target.scrollTop > 750) {
       setCurrent('main');
     } else if (evt.target.scrollTop > 250) {
@@ -28,7 +28,7 @@ function BurgerIngredients(props) {
     }
   }
 
-  function scrollAnotherType(evt) {
+  function scrollToChosenType(evt) {
     setCurrent(evt)
 
     if (evt === 'bun') {
@@ -43,11 +43,11 @@ function BurgerIngredients(props) {
   return (
     <div>
       <h1 className='text text_type_main-large mt-10'>Соберите бургер</h1>
-      <IngredientsMenu current={current} onClick={scrollAnotherType}/>
-      <ul ref={typeRef} className={ingredientsStyles['burger-ingr__list']} onScroll={changeAnotherType}>
-        <IngredientsType innerRef={bunRef} data={dataBun} title='Булки' onClick={props.onClick}/>
-        <IngredientsType innerRef={sauceRef} data={dataSauce} title='Соусы' onClick={props.onClick}/>
-        <IngredientsType innerRef={mainRef} data={dataMain} title='Начинки' onClick={props.onClick}/>
+      <IngredientsMenu current={current} onClick={scrollToChosenType}/>
+      <ul ref={typeRef} className={ingredientsStyles['burger-ingr__list']} onScroll={changeTypeByScroll}>
+        <IngredientsType innerRef={bunRef} data={dataBun} title='Булки'/>
+        <IngredientsType innerRef={sauceRef} data={dataSauce} title='Соусы'/>
+        <IngredientsType innerRef={mainRef} data={dataMain} title='Начинки'/>
       </ul>
     </div>
   )

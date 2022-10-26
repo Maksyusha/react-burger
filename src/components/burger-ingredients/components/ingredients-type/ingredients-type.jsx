@@ -5,12 +5,12 @@ import {IngredientsItem} from './components/ingredients-item/ingredients-item.js
 
 
 
-function IngredientsType(props) {
+function IngredientsType({innerRef, data, title}) {
   return(
-    <li ref={props.innerRef} className='mb-10' onClick={props.onClick}>
-      <h2 className={`${typeStyles['ingredients-type__title']} text text_type_main-medium`}>{props.title}</h2>
+    <li ref={innerRef} className='mb-10'>
+      <h2 className={`${typeStyles['ingredients-type__title']} text text_type_main-medium`}>{title}</h2>
       <ul className={`${typeStyles['ingredients-type__list']} pt-6 pr-4 pl-4`}>
-        {props.data.map((item) => (<IngredientsItem data={item} key={item._id} onClick={props.onClick}/>))}
+        {data.map((item) => (<IngredientsItem data={item} key={item._id}/>))}
       </ul>
     </li>
   )
@@ -20,9 +20,8 @@ function IngredientsType(props) {
 
 IngredientsType.propTypes = {
   innerRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
-  title: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(ingredientTypes).isRequired,
-  onClick: PropTypes.func.isRequired
+  title: PropTypes.string.isRequired
 }
 
 

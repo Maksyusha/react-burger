@@ -1,10 +1,10 @@
 import { ingredientTypes } from '../../utils/types.js';
 import ingrDetStyles from './ingredient-details.module.css';
+import {useSelector} from 'react-redux';
 
 
-
-function IngredientDetails(props) {
-  const {image_large, name, calories, proteins, fat, carbohydrates} = props.data;
+function IngredientDetails() {
+  const {image_large, name, calories, proteins, fat, carbohydrates} = useSelector(store => store.burgerIngredients.modalIngredient);
 
   return (
     <div className={ingrDetStyles['ingr-det']}>

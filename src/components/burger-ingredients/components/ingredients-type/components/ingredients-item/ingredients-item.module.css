@@ -5,6 +5,10 @@
   align-items: center;
 }
 
+.ingredient-item__image {
+  z-index: 1;
+}
+
 .ingredient-item__price-container {
   display: flex;
   align-items: center;

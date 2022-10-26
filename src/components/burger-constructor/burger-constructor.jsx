@@ -1,70 +1,58 @@
-import PropTypes from 'prop-types';
-import { ingredientTypes } from '../../utils/types.js';
 import constrStyles from './burger-constructor.module.css'
-import {ConstructorElement, DragIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {Total} from './components/total/total.jsx'
+import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components';
+import {Total} from './components/total/total.jsx';
+import { BurgerItem } from './components/burger-item/burger-item.jsx';
+import {useDrop} from 'react-dnd';
+import {INCREASE_INGREDIENT_VALUE} from '../../services/actions/burger-ingredients';
+import {ADD_CHOSEN_INGREDIENT} from '../../services/actions/burger-constructor';
+import {useSelector, useDispatch} from 'react-redux';
 
 
 
-function BurgerConstructor(props) {
+function BurgerConstructor() {
+  const bunIngredient = useSelector(store => store.burgerConstructor.chosenBunIngredient);
+  const chosenIngredients = useSelector(store => store.burgerConstructor.chosenOtherIngredients);
 
-  const actualIngredients = props.data.filter((item) => item.__v !== 0);
-  const bun = actualIngredients.filter((item) => item.type === 'bun')[0];
+  const dispatch = useDispatch();
 
-  function renderElement(item) {
-    return (
-      <li className={`${constrStyles['burger-constr__list-item']}`} key={item._id}>
-        <DragIcon type="primary" />
-        <ConstructorElement
-        isLocked={false}
-        thumbnail={item.image}
-        text={item.name}
-        price={item.price}
-        />
-      </li>
-    )
-  }
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      dispatch({type: INCREASE_INGREDIENT_VALUE, ingredient: item});
+      dispatch({type: ADD_CHOSEN_INGREDIENT, ingredient: item});
+    }
+  })
 
   return (
-    <div className='mt-25'>
-      {(bun !== undefined && bun.length !== 0) &&
+    <div ref={dropTarget} className='mt-25'>
+      {(bunIngredient !== undefined && bunIngredient.length > 0) &&
       <div className='mb-4 ml-6'>
         <ConstructorElement
           type='top'
           isLocked={true}
-          thumbnail={bun.image}
-          text={`${bun.name} (верх)`}
-          price={bun.price}
+          thumbnail={bunIngredient[0].image}
+          text={`${bunIngredient[0].name} (верх)`}
+          price={bunIngredient[0].price}
         />
       </div>}
       <ul className={constrStyles['burger-constr__list']}>
-        {actualIngredients.filter((item) => item.type === 'sauce')
-        .map((item) => renderElement(item))}
-        {actualIngredients.filter((item) => item.type === 'main')
-        .map((item) => renderElement(item))}
+        {chosenIngredients !== undefined
+        && chosenIngredients.length > 0
+        && chosenIngredients.map((ingredient, index) => <BurgerItem key={ingredient._id + index} index={index} item={ingredient}/>)}
       </ul>
-      {(bun !== undefined && bun.length !== 0) &&
-      <div className='mt-4 ml-6'>
+      {(bunIngredient !== undefined && bunIngredient.length > 0) &&
+      <div className={chosenIngredients.length === 0 ? 'ml-6' : 'mt-4 ml-6'}>
         <ConstructorElement
           type='bottom'
           isLocked={true}
-          thumbnail={bun.image}
-          text={`${bun.name} (низ)`}
-          price={bun.price}
+          thumbnail={bunIngredient[0].image}
+          text={`${bunIngredient[0].name} (низ)`}
+          price={bunIngredient[0].price}
         />
       </div>}
-      <div className={`${constrStyles['burger-constr__order']} mt-10`}>
-          <Total data={actualIngredients}/>
-          <Button htmlType='button' type='primary' size='large' onClick={() => props.onClick()}>Оформить заказ</Button>
-      </div>
+      <Total/>
     </div>
   )
-}
-
-
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientTypes).isRequired
 }
 
 
