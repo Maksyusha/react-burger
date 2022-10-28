@@ -8,7 +8,7 @@ export const FILL_ORDER_LIST = 'FILL_ORDER_LIST';
 
 export const POST_INGREDIENTS_REQUEST = 'POST_INGREDIENTS_REQUEST';
 export const POST_INGREDIENTS_SUCCESS = 'POST_INGREDIENTS_SUCCESS';
-export const POST_INGREDIENTS_FAILED = 'POST_INGREDIENTS_FAILED';
+export const POST_INGREDIENTS_ERROR = 'POST_INGREDIENTS_ERROR';
 
 export const SHOW_ORDER_MODAL = 'SHOW_ORDER_MODAL';
 export const HIDE_OREDER_MODAL = 'HIDE_ORDER_MODAL';
@@ -26,7 +26,7 @@ export function postChosenIngredients(data) {
     }).catch((err) => {
       console.log(err);
       dispatch({
-        type: POST_INGREDIENTS_FAILED
+        type: POST_INGREDIENTS_ERROR
       });
     });
   }

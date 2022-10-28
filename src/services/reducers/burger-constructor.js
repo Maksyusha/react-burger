@@ -4,7 +4,7 @@ import {
   SORT_CHOSEN_INGREDIENTS,
   POST_INGREDIENTS_REQUEST,
   POST_INGREDIENTS_SUCCESS,
-  POST_INGREDIENTS_FAILED,
+  POST_INGREDIENTS_ERROR,
   FILL_ORDER_LIST,
   SHOW_ORDER_MODAL,
   HIDE_OREDER_MODAL
@@ -87,7 +87,7 @@ export const burgerConstructorReducer = (state = inititalState, action) => {
         orderRequest: false
       }
     }
-    case POST_INGREDIENTS_FAILED: {
+    case POST_INGREDIENTS_ERROR: {
       return {
         ...state,
         orderRequest: false,
