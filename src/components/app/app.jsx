@@ -13,8 +13,8 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
-  const {ingredients, ingredientModalIsOpened} = useSelector(store => store.burgerIngredients);
-  const {orderModalIsOpened} = useSelector(store => store.burgerConstructor);
+  const {ingredients, ingredientsFailed, ingredientModalIsOpened} = useSelector(store => store.burgerIngredients);
+  const {orderFailed, orderModalIsOpened} = useSelector(store => store.burgerConstructor);
 
   const dispatch = useDispatch();
 
@@ -31,10 +31,12 @@ function App() {
     <div className="App">
       <AppHeader />
       <div className={appStyles["burger-container"]}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients data={ingredients}/>
-          <BurgerConstructor/>
-        </DndProvider>
+        {ingredientsFailed
+        ? <p className={`${appStyles["burger-container__error"]} text_type_main-medium`}>Произшла ошибка загрузки ингредиентов</p>
+        : <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients data={ingredients}/>
+            <BurgerConstructor/>
+          </DndProvider>}
       </div>
       {ingredientModalIsOpened && (
         <Modal onClose={closeAllModals}>
@@ -43,7 +45,9 @@ function App() {
       )}
       {orderModalIsOpened && (
         <Modal onClose={closeAllModals}>
-          <OrderDetails/>
+          {orderFailed
+          ? <p className='text_type_main-medium mt-25 mr-20 ml-20 mb-25'>Произшла ошибка отправки данных заказа</p>
+          : <OrderDetails/>}
         </Modal>
       )}
     </div>

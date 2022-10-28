@@ -4,3 +4,9 @@
   justify-content: center;
   gap: 40px;
 }
+
+.burger-container__error {
+  grid-area: 1 / 1 / -1 / -1;
+  margin: 300px 0 0;
+  text-align: center;
+}
