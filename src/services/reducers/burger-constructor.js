@@ -5,6 +5,7 @@ import {
   POST_INGREDIENTS_REQUEST,
   POST_INGREDIENTS_SUCCESS,
   POST_INGREDIENTS_FAILED,
+  FILL_ORDER_LIST,
   SHOW_ORDER_MODAL,
   HIDE_OREDER_MODAL
 } from '../actions/burger-constructor';
@@ -15,11 +16,12 @@ const inititalState = {
   chosenBunIngredient: [],
   chosenOtherIngredients: [],
   totalPrice: 0,
+  orderList: [],
   orderNumber: null,
   orderName: '',
   orderRequest: false,
   orderFailed: false,
-  modalOrderIsOpened: false,
+  orderModalIsOpened: false,
 }
 
 export const burgerConstructorReducer = (state = inititalState, action) => {
@@ -46,8 +48,8 @@ export const burgerConstructorReducer = (state = inititalState, action) => {
       }
     }
     case DELETE_CHOSEN_INGREDIENT: {
-      const copyChosenIngredients = [...state.chosenOtherIngredients]
-      copyChosenIngredients.splice(action.index, 1)
+      const copyChosenIngredients = [...state.chosenOtherIngredients];
+      copyChosenIngredients.splice(action.index, 1);
 
       return {
         ...state,
@@ -63,6 +65,12 @@ export const burgerConstructorReducer = (state = inititalState, action) => {
       return {
         ...state,
         chosenOtherIngredients: copyChosenIngredients
+      }
+    }
+    case FILL_ORDER_LIST: {
+      return {
+        ...state,
+        orderList: action.orderList
       }
     }
     case POST_INGREDIENTS_REQUEST: {
@@ -89,13 +97,13 @@ export const burgerConstructorReducer = (state = inititalState, action) => {
     case SHOW_ORDER_MODAL: {
       return {
         ...state,
-        modalOrderIsOpened: true
+        orderModalIsOpened: true
       }
     }
     case HIDE_OREDER_MODAL: {
       return {
         ...state,
-        modalOrderIsOpened: false
+        orderModalIsOpened: false
       }
     }
     default: {

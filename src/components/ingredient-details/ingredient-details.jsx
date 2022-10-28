@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 
 
 function IngredientDetails() {
-  const {image_large, name, calories, proteins, fat, carbohydrates} = useSelector(store => store.burgerIngredients.modalIngredient);
+  const {image_large, name, calories, proteins, fat, carbohydrates} = useSelector(store => store.burgerIngredients.ingredientModal);
 
   return (
     <div className={ingrDetStyles['ingr-det']}>

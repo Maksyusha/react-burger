@@ -13,8 +13,8 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
-  const {ingredients, modalIngredientIsOpened} = useSelector(store => store.burgerIngredients);
-  const {modalOrderIsOpened} = useSelector(store => store.burgerConstructor);
+  const {ingredients, ingredientModalIsOpened} = useSelector(store => store.burgerIngredients);
+  const {orderModalIsOpened} = useSelector(store => store.burgerConstructor);
 
   const dispatch = useDispatch();
 
@@ -36,12 +36,12 @@ function App() {
           <BurgerConstructor/>
         </DndProvider>
       </div>
-      {modalIngredientIsOpened && (
+      {ingredientModalIsOpened && (
         <Modal onClose={closeAllModals}>
           <IngredientDetails/>
         </Modal>
       )}
-      {modalOrderIsOpened && (
+      {orderModalIsOpened && (
         <Modal onClose={closeAllModals}>
           <OrderDetails/>
         </Modal>

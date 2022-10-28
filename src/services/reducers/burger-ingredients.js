@@ -15,8 +15,8 @@ const inititalState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
-  modalIngredient: {},
-  modalIngredientIsOpened: false,
+  ingredientModal: {},
+  ingredientModalIsOpened: false,
 }
 
 export const burgerIngredientsReducer = (state = inititalState, action) => {
@@ -71,19 +71,19 @@ export const burgerIngredientsReducer = (state = inititalState, action) => {
     case SET_INGREDIENT_MODAL: {
       return {
         ...state,
-        modalIngredient: action.ingredient
+        ingredientModal: action.ingredient
       }
     }
     case SHOW_INGREDIENT_MODAL: {
       return {
         ...state,
-        modalIngredientIsOpened: true
+        ingredientModalIsOpened: true
       }
     }
     case HIDE_INGREDIENT_MODAL: {
       return {
         ...state,
-        modalIngredientIsOpened: false
+        ingredientModalIsOpened: false
       }
     }
     default: {

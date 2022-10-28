@@ -3,7 +3,7 @@ import { ingredientTypes } from '../../../../utils/types.js';
 import totalStyles from './total.module.css';
 import {CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useSelector, useDispatch} from 'react-redux';
-import { postChosenIngredients, SHOW_ORDER_MODAL } from '../../../../services/actions/burger-constructor.js';
+import { postChosenIngredients, FILL_ORDER_LIST, SHOW_ORDER_MODAL } from '../../../../services/actions/burger-constructor.js';
 
 
 function Total() {
@@ -12,11 +12,13 @@ function Total() {
   const dispatch = useDispatch();
 
   const showOrderModal = () => {
-    dispatch(postChosenIngredients({ingredients: [
+    const dataToPost = {ingredients: [
       chosenBunIngredient[0]._id,
       ...chosenOtherIngredients.filter((ingredient) => ingredient.type !== 'bun').map((ingredient) => ingredient._id),
       chosenBunIngredient[0]._id
-    ]}));
+    ]}
+    dispatch({type: FILL_ORDER_LIST, orderList: dataToPost});
+    dispatch(postChosenIngredients(dataToPost));
     dispatch({type: SHOW_ORDER_MODAL});
   }
 

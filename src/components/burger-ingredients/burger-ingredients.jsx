@@ -56,8 +56,7 @@ function BurgerIngredients(props) {
 
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientTypes).isRequired,
-  onClick: PropTypes.func.isRequired
+  data: PropTypes.arrayOf(ingredientTypes).isRequired
 }
 
 
