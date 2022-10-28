@@ -1,0 +1,12 @@
+.ingredients-type__list {
+  width: fit-content;
+  display: grid;
+  grid-template-columns: repeat(2, 272px);
+  gap: 24px;
+  margin: 0;
+  list-style: none;
+}
+
+.ingredients-type__title {
+  grid-column: span 2;
+}
