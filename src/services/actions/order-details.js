@@ -18,8 +18,7 @@ export function postChosenIngredients(data) {
           orderName: data.name,
         })
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(() => {
         dispatch({
           type: POST_INGREDIENTS_ERROR,
         })

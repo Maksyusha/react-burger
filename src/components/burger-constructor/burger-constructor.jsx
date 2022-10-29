@@ -36,15 +36,13 @@ function BurgerConstructor() {
         </div>
       )}
       <ul className={constrStyles['burger-constr__list']}>
-        {chosenIngredients !== undefined &&
-          chosenIngredients.length > 0 &&
-          chosenIngredients.map((ingredient, index) => (
-            <BurgerItem
-              key={ingredient._id + index}
-              index={index}
-              item={ingredient}
-            />
-          ))}
+        {chosenIngredients.map((ingredient, index) => (
+          <BurgerItem
+            key={ingredient._id + index}
+            index={index}
+            item={ingredient}
+          />
+        ))}
       </ul>
       {chosenBun !== null && (
         <div className={chosenIngredients.length === 0 ? 'ml-6' : 'mt-4 ml-6'}>
