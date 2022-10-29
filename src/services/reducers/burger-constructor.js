@@ -16,7 +16,7 @@ export const burgerConstructorReducer = (state = inititalState, action) => {
   switch(action.type) {
     case ADD_CHOSEN_INGREDIENT: {
       if (action.ingredient.type === 'bun') {
-        return state.chosenBun !== null
+        return state.chosenBun
         ? {
           ...state,
           totalPrice: state.totalPrice - state.chosenBun.price * 2 + action.ingredient.price * 2,
