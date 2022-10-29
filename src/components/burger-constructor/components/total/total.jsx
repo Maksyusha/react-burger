@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { useMemo } from 'react'
 import { ingredientTypes } from '../../../../utils/types.js'
 import totalStyles from './total.module.css'
 import {
@@ -12,7 +13,7 @@ import {
 } from '../../../../services/actions/order-details'
 
 function Total() {
-  const { totalPrice, chosenBun, chosenIngredients } = useSelector(
+  const { chosenBun, chosenIngredients } = useSelector(
     (store) => store.burgerConstructor
   )
 
@@ -32,10 +33,20 @@ function Total() {
     dispatch({ type: SHOW_ORDER_MODAL })
   }
 
+  const changeTotal = useMemo(() => {
+    return chosenBun && chosenIngredients.length !== 0
+      ? chosenBun.price * 2 + chosenIngredients.reduce((a, b) => a + b.price, 0)
+      : chosenIngredients.length !== 0
+      ? chosenIngredients.reduce((a, b) => a + b.price, 0)
+      : chosenBun
+      ? chosenBun.price * 2
+      : 0
+  }, [chosenBun, chosenIngredients])
+
   return (
     <div className={`${totalStyles['total__container']} mt-10 mr-10`}>
       <div className={totalStyles['total__price-container']}>
-        <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
+        <p className="text text_type_digits-medium mr-2">{changeTotal}</p>
         <div className={totalStyles['total__icon']}>
           <CurrencyIcon />
         </div>
