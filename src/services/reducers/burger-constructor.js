@@ -2,108 +2,57 @@ import {
   ADD_CHOSEN_INGREDIENT,
   DELETE_CHOSEN_INGREDIENT,
   SORT_CHOSEN_INGREDIENTS,
-  POST_INGREDIENTS_REQUEST,
-  POST_INGREDIENTS_SUCCESS,
-  POST_INGREDIENTS_ERROR,
-  FILL_ORDER_LIST,
-  SHOW_ORDER_MODAL,
-  HIDE_OREDER_MODAL
 } from '../actions/burger-constructor';
 
 
 
 const inititalState = {
-  chosenBunIngredient: [],
-  chosenOtherIngredients: [],
+  chosenBun: null,
+  chosenIngredients: [],
   totalPrice: 0,
-  orderList: [],
-  orderNumber: null,
-  orderName: '',
-  orderRequest: false,
-  orderFailed: false,
-  orderModalIsOpened: false,
 }
 
 export const burgerConstructorReducer = (state = inititalState, action) => {
   switch(action.type) {
     case ADD_CHOSEN_INGREDIENT: {
       if (action.ingredient.type === 'bun') {
-        return state.chosenBunIngredient[0] !== undefined
+        return state.chosenBun !== null
         ? {
           ...state,
-          totalPrice: state.totalPrice - state.chosenBunIngredient[0].price * 2 + action.ingredient.price * 2,
-          chosenBunIngredient: [action.ingredient]
+          totalPrice: state.totalPrice - state.chosenBun.price * 2 + action.ingredient.price * 2,
+          chosenBun: action.ingredient
         }
         : {
           ...state,
           totalPrice: state.totalPrice + action.ingredient.price * 2,
-          chosenBunIngredient: [action.ingredient]
+          chosenBun: action.ingredient
         }
       } else {
         return {
           ...state,
           totalPrice: state.totalPrice + action.ingredient.price,
-          chosenOtherIngredients: [...state.chosenOtherIngredients, action.ingredient]
+          chosenIngredients: [...state.chosenIngredients, action.ingredient]
         }
       }
     }
     case DELETE_CHOSEN_INGREDIENT: {
-      const copyChosenIngredients = [...state.chosenOtherIngredients];
+      const copyChosenIngredients = [...state.chosenIngredients];
       copyChosenIngredients.splice(action.index, 1);
 
       return {
         ...state,
-        chosenOtherIngredients: copyChosenIngredients,
+        chosenIngredients: copyChosenIngredients,
         totalPrice: state.totalPrice - action.ingredient.price
       }
     }
     case SORT_CHOSEN_INGREDIENTS: {
-      const copyChosenIngredients = [...state.chosenOtherIngredients]
-      const changedIngredient = copyChosenIngredients.splice(action.hoverIndex, 1, state.chosenOtherIngredients[action.dragIndex])
+      const copyChosenIngredients = [...state.chosenIngredients]
+      const changedIngredient = copyChosenIngredients.splice(action.hoverIndex, 1, state.chosenIngredients[action.dragIndex])
       copyChosenIngredients.splice(action.dragIndex, 1, changedIngredient[0]);
 
       return {
         ...state,
-        chosenOtherIngredients: copyChosenIngredients
-      }
-    }
-    case FILL_ORDER_LIST: {
-      return {
-        ...state,
-        orderList: action.orderList
-      }
-    }
-    case POST_INGREDIENTS_REQUEST: {
-      return {
-        ...state,
-        orderRequest: true
-      }
-    }
-    case POST_INGREDIENTS_SUCCESS: {
-      return {
-        ...state,
-        orderNumber: action.orderNumber,
-        orderName: action.orderName,
-        orderRequest: false
-      }
-    }
-    case POST_INGREDIENTS_ERROR: {
-      return {
-        ...state,
-        orderRequest: false,
-        orderFailed: true
-      }
-    }
-    case SHOW_ORDER_MODAL: {
-      return {
-        ...state,
-        orderModalIsOpened: true
-      }
-    }
-    case HIDE_OREDER_MODAL: {
-      return {
-        ...state,
-        orderModalIsOpened: false
+        chosenIngredients: copyChosenIngredients
       }
     }
     default: {

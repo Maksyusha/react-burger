@@ -7,10 +7,6 @@ export const GET_INGREDIENTS_ERROR = 'GET_INGREDIENTS_ERROR';
 export const INCREASE_INGREDIENT_VALUE = 'INCREASE_INGREDIENT_VALUE';
 export const DECREASE_INGREDIENT_VALUE = 'DECREASE_INGREDIENT_VALUE';
 
-export const SET_INGREDIENT_MODAL = 'SET_INGREDIENT_MODAL';
-export const SHOW_INGREDIENT_MODAL = 'SHOW_INGREDIENT_MODAL';
-export const HIDE_INGREDIENT_MODAL = 'HIDE_INGREDIENT_MODAL';
-
 export function getBurgerIngredients() {
   return function(dispatch) {
     dispatch({
@@ -20,7 +16,9 @@ export function getBurgerIngredients() {
     .then((res) => {
       dispatch({
         type: GET_INGREDIENTS_SUCCESS,
-        ingredients: res.data
+        ingredients: res.data.map((item) => {
+          return {...item, 'qty': 0};
+        })
       });
     }).catch((err) => {
       console.log(err);

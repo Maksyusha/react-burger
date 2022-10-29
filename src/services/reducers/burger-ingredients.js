@@ -4,27 +4,20 @@ import {
   GET_INGREDIENTS_ERROR,
   INCREASE_INGREDIENT_VALUE,
   DECREASE_INGREDIENT_VALUE,
-  SET_INGREDIENT_MODAL,
-  SHOW_INGREDIENT_MODAL,
-  HIDE_INGREDIENT_MODAL
-} from '../actions/burger-ingredients';
-
-
+} from '../actions/burger-ingredients'
 
 const inititalState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
-  ingredientModal: {},
-  ingredientModalIsOpened: false,
 }
 
 export const burgerIngredientsReducer = (state = inititalState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
         ...state,
-        ingredientsRequest: true
+        ingredientsRequest: true,
       }
     }
     case GET_INGREDIENTS_SUCCESS: {
@@ -38,7 +31,7 @@ export const burgerIngredientsReducer = (state = inititalState, action) => {
       return {
         ...state,
         ingredientsFailed: true,
-        ingredientsRequest: false
+        ingredientsRequest: false,
       }
     }
     case INCREASE_INGREDIENT_VALUE: {
@@ -46,17 +39,22 @@ export const burgerIngredientsReducer = (state = inititalState, action) => {
         return {
           ...state,
           ingredients: [...state.ingredients].map((ingredient) => {
-            return (ingredient.type === 'bun' && ingredient._id !== action.ingredient._id)
-            ? {...ingredient, '__v': 0}
-            : (ingredient._id === action.ingredient._id)
-            ? {...ingredient, '__v': 1}
-            : ingredient;
-          })
+            return ingredient.type === 'bun' &&
+              ingredient._id !== action.ingredient._id
+              ? { ...ingredient, qty: 0 }
+              : ingredient._id === action.ingredient._id
+              ? { ...ingredient, qty: 1 }
+              : ingredient
+          }),
         }
       } else {
         return {
           ...state,
-          ingredients: [...state.ingredients].map((ingredient) => ingredient._id === action.ingredient._id ? {...ingredient, '__v': ++ingredient.__v} : ingredient)
+          ingredients: [...state.ingredients].map((ingredient) =>
+            ingredient._id === action.ingredient._id
+              ? { ...ingredient, qty: ++ingredient.qty }
+              : ingredient
+          ),
         }
       }
     }
@@ -64,30 +62,14 @@ export const burgerIngredientsReducer = (state = inititalState, action) => {
       return {
         ...state,
         ingredients: [...state.ingredients].map((ingredient) =>
-          ingredient._id === action.ingredient._id ? {...ingredient, '__v': --ingredient.__v} : ingredient
-        )
-      }
-    }
-    case SET_INGREDIENT_MODAL: {
-      return {
-        ...state,
-        ingredientModal: action.ingredient
-      }
-    }
-    case SHOW_INGREDIENT_MODAL: {
-      return {
-        ...state,
-        ingredientModalIsOpened: true
-      }
-    }
-    case HIDE_INGREDIENT_MODAL: {
-      return {
-        ...state,
-        ingredientModalIsOpened: false
+          ingredient._id === action.ingredient._id
+            ? { ...ingredient, qty: --ingredient.qty }
+            : ingredient
+        ),
       }
     }
     default: {
-      return state;
+      return state
     }
   }
 }
