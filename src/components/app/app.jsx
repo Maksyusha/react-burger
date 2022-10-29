@@ -26,8 +26,11 @@ function App() {
 
   const dispatch = useDispatch()
 
-  const closeAllModals = () => {
+  const closeIngredientModal = () => {
     dispatch({ type: HIDE_INGREDIENT_MODAL })
+  }
+
+  const closeOrderModal = () => {
     dispatch({ type: HIDE_ORDER_MODAL })
   }
 
@@ -45,12 +48,12 @@ function App() {
         </DndProvider>
       </div>
       {ingredientModalIsOpened && (
-        <Modal onClose={closeAllModals}>
+        <Modal onClose={closeIngredientModal}>
           <IngredientDetails />
         </Modal>
       )}
       {orderModalIsOpened && (
-        <Modal onClose={closeAllModals}>
+        <Modal onClose={closeOrderModal}>
           {orderFailed ? (
             <p className="text_type_main-medium mt-25 mr-20 ml-20 mb-25">
               Произшла ошибка отправки данных заказа
