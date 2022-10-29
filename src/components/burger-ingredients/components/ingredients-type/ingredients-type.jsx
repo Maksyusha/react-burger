@@ -23,7 +23,7 @@ function IngredientsType({ innerRef, data, title }) {
 IngredientsType.propTypes = {
   innerRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) })
     .isRequired,
-  data: PropTypes.arrayOf(ingredientTypes).isRequired,
+  data: PropTypes.arrayOf(ingredientTypes.isRequired).isRequired,
   title: PropTypes.string.isRequired,
 }
 

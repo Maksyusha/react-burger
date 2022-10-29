@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types'
 import { useMemo } from 'react'
-import { ingredientTypes } from '../../../../utils/types.js'
 import totalStyles from './total.module.css'
 import {
   CurrencyIcon,
@@ -61,10 +59,6 @@ function Total() {
       </Button>
     </div>
   )
-}
-
-Total.propTypes = {
-  data: PropTypes.arrayOf(ingredientTypes),
 }
 
 export { Total }

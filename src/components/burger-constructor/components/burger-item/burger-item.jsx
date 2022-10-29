@@ -1,5 +1,7 @@
 import { useRef } from 'react'
 import itemStyles from './burger-item.module.css'
+import PropTypes from 'prop-types'
+import { ingredientTypes } from '../../../../utils/types'
 import {
   ConstructorElement,
   DragIcon,
@@ -86,4 +88,11 @@ export function BurgerItem({ item, index }) {
       />
     </li>
   )
+}
+
+
+
+BurgerItem.propTypes = {
+  item: ingredientTypes.isRequired,
+  index: PropTypes.number.isRequired
 }
