@@ -19,8 +19,8 @@ function Modal(props) {
 
     return () => {
       document.removeEventListener('keydown', onEscKeyClose)
-    }
-  }, [])
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) //TODO линтер ругался на отсутствие зависимостей
 
   return ReactDOM.createPortal(
     <div className={modalStyles['modal']}>

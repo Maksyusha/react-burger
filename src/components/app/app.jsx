@@ -14,9 +14,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App() {
-  const { ingredients, ingredientsFailed } = useSelector(
-    (store) => store.burgerIngredients
-  )
+  const { ingredients } = useSelector((store) => store.burgerIngredients)
   const { ingredientModalIsOpened } = useSelector(
     (store) => store.ingredientDetails
   )
@@ -35,8 +33,8 @@ function App() {
   }
 
   useEffect(() => {
-    dispatch(getBurgerIngredients())
-  }, [])
+    dispatch(getBurgerIngredients()) // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) //TODO линтер ругался на отсутствие зависимостей
 
   return (
     <div className="App">

@@ -38,7 +38,7 @@ function BurgerConstructor() {
       <ul className={constrStyles['burger-constr__list']}>
         {chosenIngredients.map((ingredient, index) => (
           <BurgerItem
-            key={ingredient._id + index}
+            key={ingredient._id + ingredient.qty}
             index={index}
             item={ingredient}
           />
