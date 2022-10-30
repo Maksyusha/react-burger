@@ -13,15 +13,10 @@ export const burgerConstructorReducer = (state = inititalState, action) => {
   switch (action.type) {
     case ADD_CHOSEN_INGREDIENT: {
       if (action.ingredient.type === 'bun') {
-        return state.chosenBun
-          ? {
-              ...state,
-              chosenBun: action.ingredient,
-            }
-          : {
-              ...state,
-              chosenBun: action.ingredient,
-            }
+        return {
+          ...state,
+          chosenBun: action.ingredient,
+        }
       } else {
         return {
           ...state,
