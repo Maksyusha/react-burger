@@ -1,17 +1,21 @@
 import { createRef, useState } from 'react'
-import PropTypes from 'prop-types'
-import { ingredientTypes } from '../../utils/types.js'
 import ingredientsStyles from './burger-ingredients.module.css'
 import { IngredientsMenu } from './components/ingredients-menu/ingredients-menu.jsx'
 import { IngredientsType } from './components/ingredients-type/ingredients-type.jsx'
 import { useSelector } from 'react-redux'
 
-function BurgerIngredients(props) {
-  const { ingredientFailed } = useSelector((store) => store.burgerIngredients)
+function BurgerIngredients() {
+  const { ingredients, ingredientFailed } = useSelector(
+    (store) => store.burgerIngredients
+  )
 
-  const dataBun = props.data.filter((item) => item.type === 'bun')
-  const dataSauce = props.data.filter((item) => item.type === 'sauce')
-  const dataMain = props.data.filter((item) => item.type === 'main')
+  const dataBun = ingredients.filter((ingredient) => ingredient.type === 'bun')
+  const dataSauce = ingredients.filter(
+    (ingredient) => ingredient.type === 'sauce'
+  )
+  const dataMain = ingredients.filter(
+    (ingredient) => ingredient.type === 'main'
+  )
 
   const [current, setCurrent] = useState('bun')
 
@@ -73,10 +77,6 @@ function BurgerIngredients(props) {
       )}
     </>
   )
-}
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientTypes.isRequired).isRequired,
 }
 
 export { BurgerIngredients }
