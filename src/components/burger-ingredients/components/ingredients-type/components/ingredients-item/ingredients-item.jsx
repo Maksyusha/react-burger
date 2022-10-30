@@ -6,24 +6,24 @@ import {
 import itemStyles from './ingredients-item.module.css'
 import { useDispatch } from 'react-redux'
 import {
-  SET_INGREDIENT_MODAL,
-  SHOW_INGREDIENT_MODAL,
+  setIngredientModal,
+  showIngredientModal,
 } from '../../../../../../services/actions/ingredient-details'
 import { useDrag } from 'react-dnd'
 
-function IngredientsItem({ data }) {
-  const { image, name, price, qty } = data
+function IngredientsItem({ ingredient }) {
+  const { image, name, price, qty } = ingredient
 
   const dispatch = useDispatch()
 
   const openModal = () => {
-    dispatch({ type: SET_INGREDIENT_MODAL, ingredient: data })
-    dispatch({ type: SHOW_INGREDIENT_MODAL })
+    dispatch(setIngredientModal(ingredient))
+    dispatch(showIngredientModal())
   }
 
   const [, dragRef] = useDrag({
     type: 'ingredient',
-    item: { ...data },
+    item: { ...ingredient },
   })
 
   return (

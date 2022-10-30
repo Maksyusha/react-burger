@@ -8,8 +8,8 @@ import { IngredientDetails } from '../ingredient-details/ingredient-details.jsx'
 import { OrderDetails } from '../order-details/order-details.jsx'
 import { useSelector, useDispatch } from 'react-redux'
 import { getBurgerIngredients } from '../../services/actions/burger-ingredients'
-import { HIDE_INGREDIENT_MODAL } from '../../services/actions/ingredient-details'
-import { HIDE_ORDER_MODAL } from '../../services/actions/order-details'
+import { hideIngredientModal } from '../../services/actions/ingredient-details'
+import { hideOrderModal } from '../../services/actions/order-details'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
@@ -24,11 +24,11 @@ function App() {
   const dispatch = useDispatch()
 
   const closeIngredientModal = () => {
-    dispatch({ type: HIDE_INGREDIENT_MODAL })
+    dispatch(hideIngredientModal())
   }
 
   const closeOrderModal = () => {
-    dispatch({ type: HIDE_ORDER_MODAL })
+    dispatch(hideOrderModal())
   }
 
   useEffect(() => {

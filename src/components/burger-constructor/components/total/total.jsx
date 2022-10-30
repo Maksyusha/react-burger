@@ -6,8 +6,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  postChosenIngredients,
-  SHOW_ORDER_MODAL,
+  sendOrder,
+  showOrderModal,
 } from '../../../../services/actions/order-details'
 
 function Total() {
@@ -17,7 +17,7 @@ function Total() {
 
   const dispatch = useDispatch()
 
-  const showOrderModal = () => {
+  const showModal = () => {
     const dataToPost = {
       ingredients: [
         chosenBun._id,
@@ -27,8 +27,8 @@ function Total() {
         chosenBun._id,
       ],
     }
-    dispatch(postChosenIngredients(dataToPost))
-    dispatch({ type: SHOW_ORDER_MODAL })
+    dispatch(sendOrder(dataToPost))
+    dispatch(showOrderModal())
   }
 
   const changeTotal = useMemo(() => {
@@ -49,12 +49,7 @@ function Total() {
           <CurrencyIcon />
         </div>
       </div>
-      <Button
-        htmlType="button"
-        type="primary"
-        size="large"
-        onClick={showOrderModal}
-      >
+      <Button htmlType="button" type="primary" size="large" onClick={showModal}>
         Оформить заказ
       </Button>
     </div>

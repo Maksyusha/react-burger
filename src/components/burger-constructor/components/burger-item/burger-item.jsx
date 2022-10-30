@@ -8,18 +8,18 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDrag, useDrop } from 'react-dnd'
 import { useDispatch } from 'react-redux'
-import { DECREASE_INGREDIENT_VALUE } from '../../../../services/actions/burger-ingredients'
+import { decreaseIngredientValue } from '../../../../services/actions/burger-ingredients'
 import {
-  DELETE_CHOSEN_INGREDIENT,
-  SORT_CHOSEN_INGREDIENTS,
+  deleteChosenIngredient,
+  sortChosenIngredient,
 } from '../../../../services/actions/burger-constructor'
 
 export function BurgerItem({ item, index }) {
   const dispatch = useDispatch()
 
   const handleDelete = (item, index) => {
-    dispatch({ type: DECREASE_INGREDIENT_VALUE, ingredient: item })
-    dispatch({ type: DELETE_CHOSEN_INGREDIENT, ingredient: item, index: index })
+    dispatch(decreaseIngredientValue(item))
+    dispatch(deleteChosenIngredient(index))
   }
 
   const ref = useRef(null)
@@ -50,11 +50,7 @@ export function BurgerItem({ item, index }) {
         return
       }
 
-      dispatch({
-        type: SORT_CHOSEN_INGREDIENTS,
-        dragIndex: dragIndex,
-        hoverIndex: hoverIndex,
-      })
+      dispatch(sortChosenIngredient(item, dragIndex, hoverIndex))
 
       item.index = hoverIndex
     },
@@ -90,9 +86,7 @@ export function BurgerItem({ item, index }) {
   )
 }
 
-
-
 BurgerItem.propTypes = {
   item: ingredientTypes.isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
 }

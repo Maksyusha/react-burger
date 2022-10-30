@@ -3,8 +3,8 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { Total } from './components/total/total.jsx'
 import { BurgerItem } from './components/burger-item/burger-item.jsx'
 import { useDrop } from 'react-dnd'
-import { INCREASE_INGREDIENT_VALUE } from '../../services/actions/burger-ingredients'
-import { ADD_CHOSEN_INGREDIENT } from '../../services/actions/burger-constructor'
+import { increaseIngredientValue } from '../../services/actions/burger-ingredients'
+import { addChosenIngredient } from '../../services/actions/burger-constructor'
 import { useSelector, useDispatch } from 'react-redux'
 
 function BurgerConstructor() {
@@ -17,8 +17,8 @@ function BurgerConstructor() {
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(item) {
-      dispatch({ type: INCREASE_INGREDIENT_VALUE, ingredient: item })
-      dispatch({ type: ADD_CHOSEN_INGREDIENT, ingredient: item })
+      dispatch(increaseIngredientValue(item))
+      dispatch(addChosenIngredient(item))
     },
   })
 

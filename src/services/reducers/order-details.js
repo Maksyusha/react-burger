@@ -1,7 +1,7 @@
 import {
-  POST_INGREDIENTS_REQUEST,
-  POST_INGREDIENTS_SUCCESS,
-  POST_INGREDIENTS_ERROR,
+  SEND_ORDER_REQUEST,
+  SEND_ORDER_SUCCESS,
+  SEND_ORDER_ERROR,
   SHOW_ORDER_MODAL,
   HIDE_ORDER_MODAL,
 } from '../actions/order-details'
@@ -15,36 +15,36 @@ const initialState = {
 
 export const orderDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case POST_INGREDIENTS_REQUEST: {
+    case SEND_ORDER_REQUEST: {
       return {
         ...state,
         orderRequest: true,
       }
     }
-    case POST_INGREDIENTS_SUCCESS: {
+    case SEND_ORDER_SUCCESS: {
       return {
         ...state,
         orderNumber: action.orderNumber,
-        orderRequest: false
+        orderRequest: false,
       }
     }
-    case POST_INGREDIENTS_ERROR: {
+    case SEND_ORDER_ERROR: {
       return {
         ...state,
         orderRequest: false,
-        orderFailed: true
+        orderFailed: true,
       }
     }
     case SHOW_ORDER_MODAL: {
       return {
         ...state,
-        orderModalIsOpened: true
+        orderModalIsOpened: true,
       }
     }
     case HIDE_ORDER_MODAL: {
       return {
         ...state,
-        orderModalIsOpened: false
+        orderModalIsOpened: false,
       }
     }
     default: {

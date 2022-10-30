@@ -12,8 +12,8 @@ function IngredientsType({ innerRef, data, title }) {
         {title}
       </h2>
       <ul className={`${typeStyles['ingredients-type__list']} pt-6 pr-4 pl-4`}>
-        {data.map((item) => (
-          <IngredientsItem data={item} key={item._id} />
+        {data.map((ingredient) => (
+          <IngredientsItem ingredient={ingredient} key={ingredient._id} />
         ))}
       </ul>
     </li>
