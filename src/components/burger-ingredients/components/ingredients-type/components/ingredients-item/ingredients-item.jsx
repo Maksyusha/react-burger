@@ -49,7 +49,7 @@ function IngredientsItem({ ingredient }) {
 }
 
 IngredientsItem.propTypes = {
-  data: ingredientTypes.isRequired,
+  ingredient: ingredientTypes.isRequired,
 }
 
 export { IngredientsItem }

@@ -6,6 +6,7 @@ import { useDrop } from 'react-dnd'
 import { increaseIngredientValue } from '../../services/actions/burger-ingredients'
 import { addChosenIngredient } from '../../services/actions/burger-constructor'
 import { useSelector, useDispatch } from 'react-redux'
+import { v4 as uuidv4 } from 'uuid'
 
 function BurgerConstructor() {
   const { chosenBun, chosenIngredients } = useSelector(
@@ -18,7 +19,7 @@ function BurgerConstructor() {
     accept: 'ingredient',
     drop(item) {
       dispatch(increaseIngredientValue(item))
-      dispatch(addChosenIngredient(item))
+      dispatch(addChosenIngredient({ ...item, key: uuidv4() })) // Из-за ничтожно малой вероятности генерирования одинакового ключа решил отказаться от его проверки на уникальность
     },
   })
 
@@ -37,11 +38,7 @@ function BurgerConstructor() {
       )}
       <ul className={constrStyles['burger-constr__list']}>
         {chosenIngredients.map((ingredient, index) => (
-          <BurgerItem
-            key={ingredient._id + ingredient.qty}
-            index={index}
-            item={ingredient}
-          />
+          <BurgerItem key={ingredient.key} index={index} item={ingredient} />
         ))}
       </ul>
       {chosenBun !== null && (

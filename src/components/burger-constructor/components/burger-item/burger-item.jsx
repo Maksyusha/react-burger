@@ -50,7 +50,7 @@ export function BurgerItem({ item, index }) {
         return
       }
 
-      dispatch(sortChosenIngredient(item, dragIndex, hoverIndex))
+      dispatch(sortChosenIngredient(dragIndex, hoverIndex))
 
       item.index = hoverIndex
     },
