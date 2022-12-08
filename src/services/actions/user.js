@@ -128,9 +128,8 @@ export function patchUser(userData) {
 export function checkAuth() {
   return function (dispatch) {
     if (getCookie('accessToken') || getCookie('refreshToken')) {
-      dispatch(getUser()).finally(() => {
-        dispatch({ type: AUTH_CHECKED })
-      })
+      dispatch(getUser())
+      dispatch({ type: AUTH_CHECKED })
     } else {
       dispatch({ type: AUTH_CHECKED })
     }

@@ -34,11 +34,10 @@ export function fetchWithRefresh(url, options) {
   return fetch(url, options)
     .then((res) => onResponse(res))
     .catch((err) => {
-      if (err === 403) {
-        refreshToken().then((tokens) => {
-          options.headers.authorization = tokens.accessToken
-
-          return fetch(url, options)
+      if (err === 401) {
+        refreshToken().then(() => {
+          options.headers.authorization = getCookie('accessToken')
+          return fetch(url, options).then((res) => onResponse(res))
         })
       }
     })
