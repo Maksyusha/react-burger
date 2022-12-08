@@ -5,6 +5,7 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector, useDispatch } from 'react-redux'
+import { useLocation, useHistory } from 'react-router-dom'
 import {
   sendOrder,
   showOrderModal,
@@ -14,10 +15,18 @@ function Total() {
   const { chosenBun, chosenIngredients } = useSelector(
     (store) => store.burgerConstructor
   )
+  const { orderFailed } = useSelector((store) => store.orderDetails)
+  const { userData } = useSelector((store) => store.user)
 
   const dispatch = useDispatch()
+  const history = useHistory()
+  const location = useLocation()
 
-  const showModal = () => {
+  const handleSubmit = () => {
+    if (!userData) {
+      return history.push('/login', { from: location })
+    }
+
     const dataToPost = {
       ingredients: [
         chosenBun._id,
@@ -27,7 +36,11 @@ function Total() {
         chosenBun._id,
       ],
     }
+
     dispatch(sendOrder(dataToPost))
+
+    if (orderFailed) return
+
     dispatch(showOrderModal())
   }
 
@@ -49,7 +62,12 @@ function Total() {
           <CurrencyIcon />
         </div>
       </div>
-      <Button htmlType="button" type="primary" size="large" onClick={showModal}>
+      <Button
+        htmlType="button"
+        type="primary"
+        size="large"
+        onClick={handleSubmit}
+      >
         Оформить заказ
       </Button>
     </div>

@@ -4,15 +4,12 @@ import PropTypes from 'prop-types'
 import modalStyles from './modal.module.css'
 import { ModalOverlay } from './components/modal-overlay/modal-overlay'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useHistory } from 'react-router-dom'
 
 const modalsContainer = document.querySelector('#modals')
 
-function Modal(props) {
-  const { onClose, children } = props
-
-  const onEscKeyClose = (evt) => {
-    evt.key === 'Escape' && props.onClose()
-  }
+function Modal({ children, onClose }) {
+  const history = useHistory()
 
   useEffect(() => {
     document.addEventListener('keydown', onEscKeyClose)
@@ -22,18 +19,26 @@ function Modal(props) {
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) //TODO линтер ругался на отсутствие зависимостей
 
+  function handleClose() {
+    history.replace('/')
+  }
+
+  function onEscKeyClose(evt) {
+    evt.key === 'Escape' && handleClose()
+  }
+
   return ReactDOM.createPortal(
     <div className={modalStyles['modal']}>
       <div className={modalStyles['modal__container']}>
         <button
           className={modalStyles['modal__button-close']}
-          onClick={onClose}
+          onClick={onClose ? onClose : handleClose}
         >
           <CloseIcon></CloseIcon>
         </button>
         {children}
       </div>
-      <ModalOverlay onClick={onClose} />
+      <ModalOverlay onClick={onClose ? onClose : handleClose} />
     </div>,
     modalsContainer
   )
@@ -41,7 +46,6 @@ function Modal(props) {
 
 Modal.propTypes = {
   children: PropTypes.element.isRequired,
-  onClose: PropTypes.func.isRequired,
 }
 
 export { Modal }

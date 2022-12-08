@@ -1,3 +1,4 @@
+import { Link, useLocation } from 'react-router-dom'
 import headerStyles from './app-header.module.css'
 import {
   BurgerIcon,
@@ -7,6 +8,18 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 function AppHeader() {
+  const location = useLocation()
+  const routes = ['/', '/feed', '/profile']
+
+  let match
+
+  function matchRoute(routes, path) {
+    let currentRoute = '/' + path.split('/')[1]
+    match = routes.find((route) => route === currentRoute)
+  }
+
+  matchRoute(routes, location.pathname)
+
   return (
     <header className={`${headerStyles['app-header']} p-4`}>
       <nav className={`${headerStyles['app-header__nav-bar']}`}>
@@ -14,28 +27,34 @@ function AppHeader() {
           <li
             className={`${headerStyles['app-header__menu-item']} pt-4 pb-4 pr-5 pl-5 mr-2`}
           >
-            <a
-              className={`${headerStyles['app-header__link']} ${headerStyles['app-header__link_active']} text text_type_main-default`}
-              href="constructor"
+            <Link
+              className={`${headerStyles['app-header__link']} ${
+                match === '/' ? headerStyles['app-header__link_active'] : null
+              } text text_type_main-default`}
+              to="/"
             >
               <div className={`${headerStyles['app-header__image']} mr-2`}>
-                <BurgerIcon type="primary" />
+                <BurgerIcon type={match === '/' ? 'primary' : 'secondary'} />
               </div>
               Конструктор
-            </a>
+            </Link>
           </li>
           <li
             className={`${headerStyles['app-header__menu-item']} pt-4 pb-4 pr-5 pl-5`}
           >
-            <a
-              className={`${headerStyles['app-header__link']} text text_type_main-default`}
-              href="orders-list"
+            <Link
+              className={`${headerStyles['app-header__link']} ${
+                match === '/feed'
+                  ? headerStyles['app-header__link_active']
+                  : null
+              } text text_type_main-default`}
+              to="/feed"
             >
               <div className={`${headerStyles['app-header__image']} mr-2`}>
-                <ListIcon type="secondary" />
+                <ListIcon type={match === '/feed' ? 'primary' : 'secondary'} />
               </div>
               Лента заказов
-            </a>
+            </Link>
           </li>
           <li className={headerStyles['app-header__logo']}>
             <Logo />
@@ -43,15 +62,19 @@ function AppHeader() {
           <li
             className={`${headerStyles['app-header__menu-item']} pt-4 pb-4 pr-5 pl-5`}
           >
-            <a
-              className={`${headerStyles['app-header__link']} text text_type_main-default`}
-              href="account"
+            <Link
+              className={`${headerStyles['app-header__link']} ${
+                match === '/profile'
+                  ? headerStyles['app-header__link_active']
+                  : null
+              } text text_type_main-default`}
+              to="/profile"
             >
               <div className={`${headerStyles['app-header__image']} mr-2`}>
-                <ProfileIcon type="secondary" />
+                <ProfileIcon type={match === '/profile' ? 'primary' : 'secondary'} />
               </div>
               Личный кабинет
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

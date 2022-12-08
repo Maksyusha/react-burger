@@ -1,9 +1,18 @@
 import ingrDetStyles from './ingredient-details.module.css'
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { Preloader } from '../preloader/preloader'
 
 function IngredientDetails() {
+  const { ingredients } = useSelector((store) => store.burgerIngredients)
+  const { id } = useParams()
+
+  if (ingredients.length === 0) {
+    return <Preloader />
+  }
+
   const { image_large, name, calories, proteins, fat, carbohydrates } =
-    useSelector((store) => store.ingredientDetails.ingredientModal)
+    ingredients.find((ingredient) => ingredient._id === id)
 
   return (
     <div className={ingrDetStyles['ingr-det']}>

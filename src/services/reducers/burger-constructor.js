@@ -4,12 +4,12 @@ import {
   SORT_CHOSEN_INGREDIENTS,
 } from '../actions/burger-constructor'
 
-const inititalState = {
+const initialState = {
   chosenBun: null,
   chosenIngredients: [],
 }
 
-export const burgerConstructorReducer = (state = inititalState, action) => {
+export const burgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_CHOSEN_INGREDIENT: {
       if (action.ingredient.type === 'bun') {
