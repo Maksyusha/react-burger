@@ -14,7 +14,7 @@ const ingredientTypes = PropTypes.shape({
   image: PropTypes.string.isRequired,
   image_large: PropTypes.string.isRequired,
   __v: PropTypes.number.isRequired
-}).isRequired
+})
 
 
 

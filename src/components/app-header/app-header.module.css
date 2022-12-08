@@ -33,6 +33,21 @@
   grid-area: 1 / 4 / 2 / 5;
 }
 
+.app-header__link {
+  display: flex;
+  text-decoration: none;
+  color: #8585AD;
+  z-index: 1;
+}
+
+.app-header__link_active {
+  color: #F2F2F3;
+}
+
+.app-header__image {
+  vertical-align: middle;
+}
+
 .app-header__logo {
   grid-area: 1 / 1 / -1 / -1;
   display: flex;

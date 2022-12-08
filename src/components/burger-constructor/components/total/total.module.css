@@ -1,5 +1,12 @@
 .total__container {
   display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 40px;
+}
+
+.total__price-container {
+  display: flex;
   align-items: center;
 }
 

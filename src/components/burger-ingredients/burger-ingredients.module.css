@@ -1,6 +1,7 @@
 .burger-ingr__list {
   max-height: calc(100vh - 324px);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   margin: 0;
   padding: 0;
   list-style: none;
