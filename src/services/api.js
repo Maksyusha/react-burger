@@ -16,73 +16,65 @@ function onResponse(res) {
   return res.ok ? res.json() : Promise.reject(res.status)
 }
 
+function request(url, options) {
+  return fetch(url, options).then(onResponse)
+}
+
 export function refreshToken() {
-  return fetch(
+  return request(
     url + 'auth/token',
     unauthPostOptions({
       token: getCookie('refreshToken'),
     })
-  )
-    .then((res) => onResponse(res))
-    .then((data) => {
-      setCookie('accessToken', data.accessToken)
-      setCookie('refreshToken', data.refreshToken)
-    })
+  ).then((data) => {
+    setCookie('accessToken', data.accessToken)
+    setCookie('refreshToken', data.refreshToken)
+  })
 }
 
 export function fetchWithRefresh(url, options) {
-  return fetch(url, options)
-    .then((res) => onResponse(res))
-    .catch((err) => {
-      if (err === 401) {
-        refreshToken().then(() => {
-          options.headers.authorization = getCookie('accessToken')
-          return fetch(url, options).then((res) => onResponse(res))
-        })
-      }
-    })
+  return request(url, options).catch((err) => {
+    if (err === 401) {
+      refreshToken().then(() => {
+        options.headers.authorization = getCookie('accessToken')
+        return fetch(url, options).then((res) => onResponse(res))
+      })
+    }
+  })
 }
 
 export function sendRegistrationRequest(userData) {
-  return fetch(url + 'auth/register', unauthPostOptions(userData)).then((res) =>
-    onResponse(res)
-  )
+  return request(url + 'auth/register', unauthPostOptions(userData))
 }
 
 export function sendAuthorizationRequest(userData) {
-  return fetch(url + 'auth/login', unauthPostOptions(userData)).then((res) =>
-    onResponse(res)
-  )
+  return request(url + 'auth/login', unauthPostOptions(userData))
 }
 
 export function forgotPasswordApi(email) {
-  return fetch(url + 'password-reset', unauthPostOptions(email)).then((res) =>
-    onResponse(res)
-  )
+  return request(url + 'password-reset', unauthPostOptions(email))
 }
 
 export function resetPasswordApi(data) {
-  return fetch(url + 'password-reset/reset', unauthPostOptions(data)).then(
-    (res) => onResponse(res)
-  )
+  return request(url + 'password-reset/reset', unauthPostOptions(data))
 }
 
 export function getLogoutRequest() {
-  return fetch(
+  return request(
     url + 'auth/logout',
     unauthPostOptions({
       token: getCookie('refreshToken'),
     })
-  ).then((res) => onResponse(res))
+  )
 }
 
 export function getBurgerIngredientsRequest() {
-  return fetch(url + 'ingredients', {
+  return request(url + 'ingredients', {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
     },
-  }).then((res) => onResponse(res))
+  })
 }
 
 export function getUserApi() {
