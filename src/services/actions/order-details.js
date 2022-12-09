@@ -1,4 +1,6 @@
 import { sendOrderRequest } from '../api'
+import { CLEAR_CHOSEN_INGREDIENTS } from './burger-constructor'
+import { getBurgerIngredients } from './burger-ingredients'
 
 export const SEND_ORDER_REQUEST = 'SEND_ORDER_REQUEST'
 export const SEND_ORDER_SUCCESS = 'SEND_ORDER_SUCCESS'
@@ -24,6 +26,8 @@ export function sendOrder(data) {
           type: SEND_ORDER_SUCCESS,
           orderNumber: data.order.number,
         })
+        dispatch(getBurgerIngredients())
+        dispatch({type: CLEAR_CHOSEN_INGREDIENTS})
       })
       .catch(() => {
         dispatch({

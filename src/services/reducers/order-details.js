@@ -18,7 +18,9 @@ export const orderDetailsReducer = (state = initialState, action) => {
     case SEND_ORDER_REQUEST: {
       return {
         ...state,
+        orderNumber: null,
         orderRequest: true,
+        orderFailed: false,
       }
     }
     case SEND_ORDER_SUCCESS: {

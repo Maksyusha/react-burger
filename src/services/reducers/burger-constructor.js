@@ -2,14 +2,15 @@ import {
   ADD_CHOSEN_INGREDIENT,
   DELETE_CHOSEN_INGREDIENT,
   SORT_CHOSEN_INGREDIENTS,
+  CLEAR_CHOSEN_INGREDIENTS,
 } from '../actions/burger-constructor'
 
-const inititalState = {
+const initialState = {
   chosenBun: null,
   chosenIngredients: [],
 }
 
-export const burgerConstructorReducer = (state = inititalState, action) => {
+export const burgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_CHOSEN_INGREDIENT: {
       if (action.ingredient.type === 'bun') {
@@ -45,6 +46,12 @@ export const burgerConstructorReducer = (state = inititalState, action) => {
       return {
         ...state,
         chosenIngredients: copyChosenIngredients,
+      }
+    }
+    case CLEAR_CHOSEN_INGREDIENTS: {
+      return {
+        chosenBun: null,
+        chosenIngredients: [],
       }
     }
     default: {

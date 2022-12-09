@@ -6,13 +6,13 @@ import {
   DECREASE_INGREDIENT_VALUE,
 } from '../actions/burger-ingredients'
 
-const inititalState = {
+const initialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
 }
 
-export const burgerIngredientsReducer = (state = inititalState, action) => {
+export const burgerIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
