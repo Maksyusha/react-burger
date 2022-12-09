@@ -4,22 +4,18 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useHistory } from 'react-router-dom'
-import { useState } from 'react'
 import { forgotPasswordApi } from '../../services/api.js'
+import { useForm } from '../../hooks/useForm.js'
 
 function ForgotPasswordPage() {
-  const [emailValue, setEmailValue] = useState({ email: '' })
+  const { values, handleChange } = useForm({ email: '' })
   const history = useHistory()
-
-  const handleChange = (evt) => {
-    setEmailValue({ email: evt.target.value })
-  }
 
   const handleSubmit = (evt) => {
     evt.preventDefault()
-    forgotPasswordApi(emailValue)
+    forgotPasswordApi(values)
       .then(() => {
-        history.replace('/reset-password', {fromForgotPage: true})
+        history.replace('/reset-password', { fromForgotPage: true })
       })
       .catch((err) => console.log(err))
   }
@@ -27,11 +23,8 @@ function ForgotPasswordPage() {
   return (
     <div className={authStyles['auth']}>
       <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
-      <form
-        className={authStyles['auth__form']}
-        onSubmit={handleSubmit}
-      >
-        <EmailInput value={emailValue.email} onChange={handleChange} />
+      <form className={authStyles['auth__form']} onSubmit={handleSubmit}>
+        <EmailInput name='email' value={values.email} onChange={handleChange} />
         <Button htmlType="submit" type="primary" size="large">
           Восстановить
         </Button>

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, Route, useRouteMatch } from 'react-router-dom'
 import styles from './profile-page.module.css'
@@ -9,10 +8,11 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { getLogout, patchUser } from '../../services/actions/user.js'
+import { useForm } from '../../hooks/useForm.js'
 
 function ProfilePage() {
   const { userData } = useSelector((store) => store.user)
-  const [formValues, setFormValues] = useState({ ...userData, password: '' })
+  const { values, handleChange, setValues } = useForm({ ...userData, password: '' })
   const dispatch = useDispatch()
 
   const match = useRouteMatch('/profile/orders') ? 'orders' : 'profile'
@@ -21,21 +21,13 @@ function ProfilePage() {
     dispatch(getLogout())
   }
 
-  function handleChange(evt) {
-    const { name, value } = evt.target
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    })
-  }
-
   function handleCancel() {
-    setFormValues({ ...userData, password: '' })
+    setValues({ ...userData, password: '' })
   }
 
   function handleSubmit(evt) {
     evt.preventDefault()
-    dispatch(patchUser(formValues))
+    dispatch(patchUser(values))
   }
 
   return (
@@ -43,7 +35,9 @@ function ProfilePage() {
       <ul className={styles['profile-page__list']}>
         <li className={styles['profile-page__list-item']}>
           <Link
-            className={`${styles['profile-page__link']} ${match === 'profile' ? styles['profile-page__link__active'] : null} text text_type_main-medium text_color_inactive`}
+            className={`${styles['profile-page__link']} ${
+              match === 'profile' ? styles['profile-page__link__active'] : null
+            } text text_type_main-medium text_color_inactive`}
             to="/profile"
           >
             Профиль
@@ -51,7 +45,9 @@ function ProfilePage() {
         </li>
         <li className={styles['profile-page__list-item']}>
           <Link
-            className={`${styles['profile-page__link']} ${match === 'orders' ? styles['profile-page__link__active'] : null} text text_type_main-medium text_color_inactive`}
+            className={`${styles['profile-page__link']} ${
+              match === 'orders' ? styles['profile-page__link__active'] : null
+            } text text_type_main-medium text_color_inactive`}
             to="/profile/orders"
           >
             История заказов
@@ -76,21 +72,21 @@ function ProfilePage() {
         <form className={styles['profile-page__form']} onSubmit={handleSubmit}>
           <Input
             name="name"
-            value={formValues.name}
+            value={values.name}
             placeholder="Имя"
             icon="EditIcon"
             onChange={handleChange}
           />
           <EmailInput
             name="email"
-            value={formValues.email}
+            value={values.email}
             placeholder="Логин"
             icon="EditIcon"
             onChange={handleChange}
           />
           <PasswordInput
             name="password"
-            value={formValues.password}
+            value={values.password}
             icon="EditIcon"
             onChange={handleChange}
           />

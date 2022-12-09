@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import authStyles from '../../styles/auth.module.css'
 import {
@@ -7,43 +6,33 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { resetPasswordApi } from '../../services/api'
+import { useForm } from '../../hooks/useForm.js'
 
 function ResetPasswordPage() {
-  const [formValues, setFormValues] = useState({ password: '', token: '' })
+  const { values, handleChange } = useForm({ password: '', token: '' })
   const location = useLocation()
-
-  const handleChange = (evt) => {
-    const { name, value } = evt.target
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    })
-  }
 
   const handleSubmit = (evt) => {
     evt.preventDefault()
-    if (!formValues.password || !formValues.token) {
+    if (!values.password || !values.token) {
       return
     }
-    resetPasswordApi(formValues)
+    resetPasswordApi(values)
   }
 
   return location.state?.fromForgotPage ? (
     <div className={authStyles['auth']}>
       <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
-      <form
-        className={authStyles['auth__form']}
-        onSubmit={handleSubmit}
-      >
+      <form className={authStyles['auth__form']} onSubmit={handleSubmit}>
         <PasswordInput
           name="password"
-          value={formValues.password}
+          value={values.password}
           placeholder="Введите новый пароль"
           onChange={handleChange}
         />
         <Input
           name="token"
-          value={formValues.token}
+          value={values.token}
           placeholder="Введите код из письма"
           onChange={handleChange}
         />

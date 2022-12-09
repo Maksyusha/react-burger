@@ -5,13 +5,13 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Redirect, Link, useLocation } from 'react-router-dom'
-import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { sendAuthorization } from '../../services/actions/user.js'
+import { useForm } from '../../hooks/useForm.js'
 
 function LoginPage() {
   const { userData } = useSelector((store) => store.user)
-  const [formValues, setFormValues] = useState({
+  const {values, handleChange} = useForm({
     email: '',
     password: '',
   })
@@ -19,20 +19,12 @@ function LoginPage() {
   const dispatch = useDispatch()
   const location = useLocation()
 
-  const handleChange = (evt) => {
-    const { name, value } = evt.target
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    })
-  }
-
   const handleSubmit = (evt) => {
     evt.preventDefault()
-    if (!formValues.email || !formValues.password) {
+    if (!values.email || !values.password) {
       return
     }
-    dispatch(sendAuthorization(formValues))
+    dispatch(sendAuthorization(values))
   }
 
   if (userData) {
@@ -46,12 +38,12 @@ function LoginPage() {
       <form className={authStyles['auth__form']} onSubmit={handleSubmit}>
         <EmailInput
           name="email"
-          value={formValues.email}
+          value={values.email}
           onChange={handleChange}
         />
         <PasswordInput
           name="password"
-          value={formValues.password}
+          value={values.password}
           onChange={handleChange}
         />
         <Button htmlType="submit" type="primary" size="large">
