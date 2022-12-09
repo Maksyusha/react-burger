@@ -57,7 +57,9 @@ function AppHeader() {
             </Link>
           </li>
           <li className={headerStyles['app-header__logo']}>
-            <Logo />
+            <Link to='/'>
+              <Logo />
+            </Link>
           </li>
           <li
             className={`${headerStyles['app-header__menu-item']} pt-4 pb-4 pr-5 pl-5`}
@@ -71,7 +73,9 @@ function AppHeader() {
               to="/profile"
             >
               <div className={`${headerStyles['app-header__image']} mr-2`}>
-                <ProfileIcon type={match === '/profile' ? 'primary' : 'secondary'} />
+                <ProfileIcon
+                  type={match === '/profile' ? 'primary' : 'secondary'}
+                />
               </div>
               Личный кабинет
             </Link>
