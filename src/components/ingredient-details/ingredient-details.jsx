@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Preloader } from '../preloader/preloader'
 
-function IngredientDetails() {
+function IngredientDetails({titlePositionCenter}) {
   const { ingredients } = useSelector((store) => store.burgerIngredients)
   const { id } = useParams()
 
@@ -18,6 +18,7 @@ function IngredientDetails() {
     <div className={ingrDetStyles['ingr-det']}>
       <h2
         className={`${ingrDetStyles['ingr-det__title']} text text_type_main-large`}
+        style={titlePositionCenter ? {alignSelf: 'center'} : null}
       >
         Детали ингредиента
       </h2>

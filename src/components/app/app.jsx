@@ -60,9 +60,7 @@ function App() {
           <ProfilePage />
         </ProtectedRoute>
         <Route path="/ingredients/:id">
-          <Modal>
-            <IngredientDetails />
-          </Modal>
+          <IngredientDetails titlePositionCenter={true}/>
         </Route>
         <Route>
           <NotFound />
