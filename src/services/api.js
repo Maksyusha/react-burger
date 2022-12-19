@@ -1,5 +1,7 @@
 import { getCookie, setCookie } from './utils'
 
+export const wsUrl = 'wss://norma.nomoreparties.space/orders'
+
 const url = 'https://norma.nomoreparties.space/api/'
 
 function unauthPostOptions(data) {

@@ -4,9 +4,11 @@ import {
   SEND_ORDER_ERROR,
   SHOW_ORDER_MODAL,
   HIDE_ORDER_MODAL,
+  SET_CURRENT_ORDER,
 } from '../actions/order-details'
 
 const initialState = {
+  currentOrder: null,
   orderNumber: null,
   orderRequest: false,
   orderFailed: false,
@@ -47,6 +49,12 @@ export const orderDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         orderModalIsOpened: false,
+      }
+    }
+    case SET_CURRENT_ORDER: {
+      return {
+        ...state,
+        currentOrder: action.order,
       }
     }
     default: {

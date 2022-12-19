@@ -4,12 +4,13 @@ import PropTypes from 'prop-types'
 import modalStyles from './modal.module.css'
 import { ModalOverlay } from './components/modal-overlay/modal-overlay'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 const modalsContainer = document.querySelector('#modals')
 
 function Modal({ children, onClose }) {
   const history = useHistory()
+  const location = useLocation()
 
   useEffect(() => {
     document.addEventListener('keydown', onEscKeyClose)
@@ -20,7 +21,13 @@ function Modal({ children, onClose }) {
   }, []) //TODO линтер ругался на отсутствие зависимостей
 
   function handleClose() {
-    history.replace('/')
+    const pathname = location.state?.background.pathname
+
+    if (pathname) {
+      history.replace(pathname)
+    } else {
+      history.replace('/')
+    }
   }
 
   function onEscKeyClose(evt) {

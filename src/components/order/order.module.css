@@ -1,0 +1,81 @@
+.order {
+  padding: 60px 40px 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.order__list {
+  width: 620px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.order__list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order__text_color_green {
+  color: #00cccc;
+}
+
+.order__ingredients-list {
+  width: 100%;
+  max-height: 312px;
+  margin: 0;
+  padding: 0 24px 0 0;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.order__ingredients-list::-webkit-scrollbar {
+  background-color: #2f2f37;
+  width: 8px;
+}
+
+.order__ingredients-list::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+.order__ingredients-list-item {
+  margin: 0 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order__ingredients-list-item:last-child {
+  margin: 0;
+}
+
+.order__ingredient-container {
+  display: flex;
+  align-items: center;
+}
+
+.order__image-container {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background: linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(45deg, #801ab2, #4c4cff) border-box;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.order__image {
+  width: 112px;
+  height: 56px;
+}
+
+.order__price-container {
+  display: flex;
+}
