@@ -11,6 +11,11 @@
 
 .protected-links__link {
   text-decoration: none;
+  transition: opacity ease-in-out .3s;
+}
+
+.protected-links__link:hover {
+  opacity: .75;
 }
 
 .protected-links__link_active {
