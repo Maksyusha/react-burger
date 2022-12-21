@@ -4,6 +4,7 @@ import {
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useLocation } from 'react-router-dom'
+import { OrderImages } from './components/order-images/order-images'
 
 function OrderListItem({ order, status, isProtectedPath }) {
   const { _id, number, createdAt, name, price, ingredients } = order
@@ -44,43 +45,7 @@ function OrderListItem({ order, status, isProtectedPath }) {
             </li>
           ) : null}
           <li className={`${styles['order-list__list-item']} mt-6`}>
-            <div className={styles['order-list__images-list']}>
-              {ingredients.slice(0, 5).map((ingredient, index) => (
-                <div
-                  key={index}
-                  className={styles['order-list__image-container']}
-                  style={{ zIndex: ingredients.length - index }}
-                >
-                  <img
-                    className={styles['order-list__image']}
-                    src={ingredient.image}
-                    alt="Изображение ингредиента"
-                  />
-                </div>
-              ))}
-              {ingredients[5] && ingredients[6] ? (
-                <div key="5" className={styles['order-list__image-container']}>
-                  <img
-                    className={styles['order-list__image']}
-                    src={ingredients[5].image}
-                    alt="Изображение ингредиента"
-                  />
-                  <div className={styles['order-list__image-overflow']}>
-                    <p className="text text_type_main-medium">{`+${
-                      ingredients.length - 6
-                    }`}</p>
-                  </div>
-                </div>
-              ) : ingredients[5] ? (
-                <div key="5" className={styles['order-list__image-container']}>
-                  <img
-                    className={styles['order-list__image']}
-                    src={ingredients[5].image}
-                    alt="Изображение ингредиента"
-                  />
-                </div>
-              ) : null}
-            </div>
+            <OrderImages ingredients={ingredients} />
             <div className={styles['order-list__price-container']}>
               <p
                 className={`${styles['order-list__price']} text text_type_digits-default mr-2`}
