@@ -33,9 +33,9 @@ function Order({ titlePositionCenter }) {
         <li className={`${styles['order__list-item']} mb-15`}>
           <p
             className="text text_type_main-default"
-            style={status === 'done' ? { color: '#00CCCC' } : null}
+            style={status.done ? { color: '#00CCCC' } : null}
           >
-            {status === 'done' ? 'Выполнен' : 'Готовится'}
+            {status[Object.keys(status)]}
           </p>
         </li>
         <li className={`${styles['order__list-item']} mb-6`}>

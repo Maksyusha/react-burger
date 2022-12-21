@@ -43,6 +43,12 @@ function App() {
   const findIngredientsData = (data, dataToFind) => {
     const result = []
     let totalPrice = null
+    const status =
+      dataToFind.status === 'done'
+        ? { done: 'Выполнен' }
+        : dataToFind.status === 'created'
+        ? { created: 'Создан' }
+        : { pending: 'Готовится' }
 
     dataToFind.ingredients.forEach((itemToFind) => {
       const itemFound = data.find((item) => item._id === itemToFind)
@@ -73,7 +79,7 @@ function App() {
       }
     })
 
-    return { ...dataToFind, price: totalPrice, ingredients: result }
+    return { ...dataToFind, status, price: totalPrice, ingredients: result }
   }
 
   function closeOrderModal() {

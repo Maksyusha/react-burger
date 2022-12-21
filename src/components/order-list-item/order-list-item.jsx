@@ -9,13 +9,6 @@ function OrderListItem({ order, status, isProtectedPath }) {
   const { _id, number, createdAt, name, price, ingredients } = order
   const location = useLocation()
 
-  const statusText =
-    status === 'done'
-      ? 'Выполнен'
-      : status === 'created'
-      ? 'Создан'
-      : 'Готовится'
-
   const path = isProtectedPath ? '/profile/orders/' : '/feed/'
 
   return (
@@ -44,9 +37,9 @@ function OrderListItem({ order, status, isProtectedPath }) {
             <li className="mt-2">
               <p
                 className="text text_type_main-default"
-                style={status === 'done' ? { color: '#00CCCC' } : null}
+                style={status.done ? { color: '#00CCCC' } : null}
               >
-                {statusText}
+                {status[Object.keys(status)]}
               </p>
             </li>
           ) : null}
