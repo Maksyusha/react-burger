@@ -91,7 +91,7 @@ function App() {
     dispatch(getBurgerIngredients())
   }, [dispatch])
 
-  useEffect(() => {
+  useEffect(() => { // И вправду забыл, довольно глупо получилось)
     if (isProfileRoute) {
       dispatch(wsConnect(`${wsUrl}?token=${accessToken}`))
     }
