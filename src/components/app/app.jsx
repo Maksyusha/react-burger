@@ -35,7 +35,8 @@ function App() {
   const { orders } = useSelector((store) => store.ws)
   const dispatch = useDispatch()
   const location = useLocation()
-  const match = useRouteMatch('/profile') ? true : false
+  const isProfileRoute = useRouteMatch('/profile/orders') ? true : false
+  const isFeedRoute = useRouteMatch('/feed') ? true : false
   const background = location.state?.background
   const accessToken = getCookie('accessToken')?.slice(7)
 
@@ -85,14 +86,17 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
-    if (match && accessToken) {
+    if (isProfileRoute) {
       dispatch(wsConnect(`${wsUrl}?token=${accessToken}`))
-    } else {
+    }
+    if (isFeedRoute) {
       dispatch(wsConnect(`${wsUrl}/all`))
     }
 
-    return () => dispatch(wsClose())
-  }, [match, accessToken, dispatch])
+    return () => {
+      dispatch(wsClose())
+    }
+  }, [isProfileRoute, isFeedRoute, accessToken, dispatch])
 
   useEffect(() => {
     if (orders) {

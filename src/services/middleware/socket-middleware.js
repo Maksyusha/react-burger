@@ -11,7 +11,7 @@ export const socketMiddleware = (wsActions) => {
         socket = new WebSocket(url)
       }
 
-      if (type === wsClose) {
+      if (socket && type === wsClose) {
         socket.close('1000', 'User closed connection')
       }
       if (socket) {
