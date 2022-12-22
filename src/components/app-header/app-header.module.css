@@ -38,10 +38,15 @@
   text-decoration: none;
   color: #8585AD;
   z-index: 1;
+  transition: opacity ease-in-out .3s;
 }
 
 .app-header__link_active {
   color: #F2F2F3;
+}
+
+.app-header__link:hover {
+  opacity: .75;
 }
 
 .app-header__image {

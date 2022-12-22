@@ -1,0 +1,32 @@
+.order-list {
+  background-color: #1c1c21;
+  border-radius: 40px;
+  margin: 0 0 16px;
+  padding: 24px;
+}
+
+.order-list:last-child {
+  margin: 0;
+}
+
+
+.order-list__link {
+  text-decoration: none;
+  color: white;
+}
+
+.order-list__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.order-list__list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-list__price-container {
+  display: flex;
+}

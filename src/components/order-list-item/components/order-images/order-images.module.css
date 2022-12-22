@@ -1,0 +1,36 @@
+.order-images {
+  display: flex;
+  flex-direction: row;
+}
+
+.order-images__image-container {
+  width: 64px;
+  height: 64px;
+  margin: 0 -16px 0 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background: linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(45deg, #801ab2, #4c4cff) border-box;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.order-images__image {
+  width: 112px;
+  height: 56px;
+}
+
+.order-images__image-overflow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1c1c21;
+  opacity: 0.6;
+}

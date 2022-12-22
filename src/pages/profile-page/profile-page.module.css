@@ -1,30 +1,9 @@
 .profile-page {
-  width: 100%;
-  height: 100vh;
+  max-width: 1240px;
+  margin: 0 auto;
   padding: 120px 0 0;
-  position: absolute;
   display: flex;
-  justify-content: center;
   gap: 60px;
-}
-
-.profile-page__list {
-  max-width: 320px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.profile-page__list-item {
-  padding: 17px 0;
-}
-
-.profile-page__link {
-  text-decoration: none;
-}
-
-.profile-page__link__active {
-  color: #F2F2F3;
 }
 
 .profile-page__form {
