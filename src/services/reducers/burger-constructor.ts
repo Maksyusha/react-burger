@@ -3,14 +3,24 @@ import {
   DELETE_CHOSEN_INGREDIENT,
   SORT_CHOSEN_INGREDIENTS,
   CLEAR_CHOSEN_INGREDIENTS,
-} from '../actions/burger-constructor'
+} from '../constants/burger-constructor'
+import { TBurgerConstructorActions } from '../actions/burger-constructor'
+import { TIngredient } from '../types/data'
 
-const initialState = {
+type TInitialState = {
+  chosenBun: TIngredient | null
+  chosenIngredients: TIngredient[]
+}
+
+const initialState: TInitialState = {
   chosenBun: null,
   chosenIngredients: [],
 }
 
-export const burgerConstructorReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (
+  state = initialState,
+  action: TBurgerConstructorActions
+): TInitialState => {
   switch (action.type) {
     case ADD_CHOSEN_INGREDIENT: {
       if (action.ingredient.type === 'bun') {

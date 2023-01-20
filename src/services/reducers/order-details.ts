@@ -4,18 +4,27 @@ import {
   SEND_ORDER_ERROR,
   SHOW_ORDER_MODAL,
   HIDE_ORDER_MODAL,
-  SET_CURRENT_ORDER,
-} from '../actions/order-details'
+} from '../constants/order-details'
+import { TOrderDetailsActions } from '../actions/order-details'
 
-const initialState = {
-  currentOrder: null,
+type TInitialState = {
+  orderNumber: number | null
+  orderRequest: boolean
+  orderFailed: boolean
+  orderModalIsOpened: boolean
+}
+
+const initialState: TInitialState = {
   orderNumber: null,
   orderRequest: false,
   orderFailed: false,
   orderModalIsOpened: false,
 }
 
-export const orderDetailsReducer = (state = initialState, action) => {
+export const orderDetailsReducer = (
+  state = initialState,
+  action: TOrderDetailsActions
+): TInitialState => {
   switch (action.type) {
     case SEND_ORDER_REQUEST: {
       return {
@@ -49,12 +58,6 @@ export const orderDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         orderModalIsOpened: false,
-      }
-    }
-    case SET_CURRENT_ORDER: {
-      return {
-        ...state,
-        currentOrder: action.order,
       }
     }
     default: {

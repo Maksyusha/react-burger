@@ -7,8 +7,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { sendRegistration } from '../../services/actions/user.js'
-import { useForm } from '../../hooks/useForm.js'
+import { sendRegistration } from '../../services/actions/user'
+import { useForm } from '../../hooks/useForm'
 
 function RegisterPage() {
   const { values, handleChange } = useForm({

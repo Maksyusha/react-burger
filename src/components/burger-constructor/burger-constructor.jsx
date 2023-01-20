@@ -1,6 +1,6 @@
 import constrStyles from './burger-constructor.module.css'
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Total } from './components/total/total.jsx'
+import { Total } from './components/total/total.tsx'
 import { BurgerItem } from './components/burger-item/burger-item.jsx'
 import { useDrop } from 'react-dnd'
 import { increaseIngredientValue } from '../../services/actions/burger-ingredients'

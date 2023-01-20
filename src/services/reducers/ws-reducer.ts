@@ -1,12 +1,22 @@
+import { TWsActions } from '../actions/ws-actions'
 import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE,
   SAVE_SORTED_ORDERS,
-} from '../actions/ws-actions.js'
+} from '../constants/ws-constants'
+import { TOrderData } from '../types/data'
 
-const initialState = {
+type TInitialState = {
+  wsConnected: boolean
+  orders: TOrderData[] | null
+  sortedOrders: TOrderData[] | null
+  total: number | null
+  totalToday: number | null
+}
+
+const initialState: TInitialState = {
   wsConnected: false,
   orders: null,
   sortedOrders: null,
@@ -14,7 +24,10 @@ const initialState = {
   totalToday: null,
 }
 
-export const wsReducer = (state = initialState, action) => {
+export const wsReducer = (
+  state = initialState,
+  action: TWsActions
+): TInitialState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {

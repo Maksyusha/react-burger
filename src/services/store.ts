@@ -1,3 +1,4 @@
+import { configureStore } from '@reduxjs/toolkit'
 import { applyMiddleware, createStore, compose } from 'redux'
 import { rootReducer } from './reducers'
 import { socketMiddleware } from './middleware/socket-middleware.js'
@@ -9,7 +10,7 @@ import {
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
-} from './actions/ws-actions'
+} from './constants/ws-constants'
 
 const wsActions = {
   wsConnect: WS_CONNECTION_START,
@@ -20,14 +21,26 @@ const wsActions = {
   onMessage: WS_GET_MESSAGE,
 }
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
+  }
+}
+
 const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose
+  (typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose
 
 const enhancer = composeEnhancers(
   applyMiddleware(thunk, socketMiddleware(wsActions))
 )
 
-export const initStore = (initialState = {}) =>
-  createStore(rootReducer, initialState, enhancer)
+export const store = createStore(rootReducer, enhancer)
+
+// export const store = configureStore({
+//   reducer: {}
+// })
+
+// export type RootState = ReturnType<typeof store.getState>
+
+// export type AppDispatch = typeof store.dispatch

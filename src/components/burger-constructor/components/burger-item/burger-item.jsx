@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux'
 import { decreaseIngredientValue } from '../../../../services/actions/burger-ingredients'
 import {
   deleteChosenIngredient,
-  sortChosenIngredient,
+  sortChosenIngredients,
 } from '../../../../services/actions/burger-constructor'
 
 export function BurgerItem({ item, index }) {
@@ -50,7 +50,7 @@ export function BurgerItem({ item, index }) {
         return
       }
 
-      dispatch(sortChosenIngredient(dragIndex, hoverIndex))
+      dispatch(sortChosenIngredients(dragIndex, hoverIndex))
 
       item.index = hoverIndex
     },

@@ -6,8 +6,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Redirect, Link, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { sendAuthorization } from '../../services/actions/user.js'
-import { useForm } from '../../hooks/useForm.js'
+import { sendAuthorization } from '../../services/actions/user'
+import { useForm } from '../../hooks/useForm'
 
 function LoginPage() {
   const { userData } = useSelector((store) => store.user)

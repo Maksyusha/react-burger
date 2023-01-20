@@ -4,15 +4,26 @@ import {
   GET_INGREDIENTS_ERROR,
   INCREASE_INGREDIENT_VALUE,
   DECREASE_INGREDIENT_VALUE,
-} from '../actions/burger-ingredients'
+} from '../constants/burger-ingredients'
+import { TIngredient } from '../types/data'
+import { TBurgerIngredientsActions } from '../actions/burger-ingredients'
 
-const initialState = {
+type TInitialState = {
+  ingredients: (TIngredient & { qty: number })[]
+  ingredientsRequest: boolean
+  ingredientsFailed: boolean
+}
+
+const initialState: TInitialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
 }
 
-export const burgerIngredientsReducer = (state = initialState, action) => {
+export const burgerIngredientsReducer = (
+  state = initialState,
+  action: TBurgerIngredientsActions
+): TInitialState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {

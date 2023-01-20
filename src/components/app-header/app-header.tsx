@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useRouteMatch } from 'react-router-dom'
 import headerStyles from './app-header.module.css'
 import {
   BurgerIcon,
@@ -8,17 +8,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 function AppHeader() {
-  const location = useLocation()
-  const routes = ['/', '/feed', '/profile']
-
-  let match
-
-  function matchRoute(routes, path) {
-    let currentRoute = '/' + path.split('/')[1]
-    match = routes.find((route) => route === currentRoute)
-  }
-
-  matchRoute(routes, location.pathname)
+  const isHome = !!useRouteMatch({ path: '/', exact: true })
+  const isFeed = !!useRouteMatch({ path: '/feed' })
+  const isProfile = !!useRouteMatch({ path: '/profile' })
 
   return (
     <header className={`${headerStyles['app-header']} p-4`}>
@@ -29,12 +21,12 @@ function AppHeader() {
           >
             <Link
               className={`${headerStyles['app-header__link']} ${
-                match === '/' ? headerStyles['app-header__link_active'] : null
+                isHome ? headerStyles['app-header__link_active'] : null
               } text text_type_main-default`}
               to="/"
             >
               <div className={`${headerStyles['app-header__image']} mr-2`}>
-                <BurgerIcon type={match === '/' ? 'primary' : 'secondary'} />
+                <BurgerIcon type={isHome ? 'primary' : 'secondary'} />
               </div>
               Конструктор
             </Link>
@@ -44,20 +36,18 @@ function AppHeader() {
           >
             <Link
               className={`${headerStyles['app-header__link']} ${
-                match === '/feed'
-                  ? headerStyles['app-header__link_active']
-                  : null
+                isFeed ? headerStyles['app-header__link_active'] : null
               } text text_type_main-default`}
               to="/feed"
             >
               <div className={`${headerStyles['app-header__image']} mr-2`}>
-                <ListIcon type={match === '/feed' ? 'primary' : 'secondary'} />
+                <ListIcon type={isFeed ? 'primary' : 'secondary'} />
               </div>
               Лента заказов
             </Link>
           </li>
           <li className={headerStyles['app-header__logo']}>
-            <Link to='/'>
+            <Link to="/">
               <Logo />
             </Link>
           </li>
@@ -66,16 +56,12 @@ function AppHeader() {
           >
             <Link
               className={`${headerStyles['app-header__link']} ${
-                match === '/profile'
-                  ? headerStyles['app-header__link_active']
-                  : null
+                isProfile ? headerStyles['app-header__link_active'] : null
               } text text_type_main-default`}
               to="/profile"
             >
               <div className={`${headerStyles['app-header__image']} mr-2`}>
-                <ProfileIcon
-                  type={match === '/profile' ? 'primary' : 'secondary'}
-                />
+                <ProfileIcon type={isProfile ? 'primary' : 'secondary'} />
               </div>
               Личный кабинет
             </Link>

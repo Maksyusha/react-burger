@@ -7,8 +7,8 @@ import {
   PasswordInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { patchUser } from '../../services/actions/user.js'
-import { useForm } from '../../hooks/useForm.js'
+import { patchUser } from '../../services/actions/user'
+import { useForm } from '../../hooks/useForm'
 import { ProtectedLinks } from '../../components/protected-links/protected-links'
 
 function ProfilePage() {

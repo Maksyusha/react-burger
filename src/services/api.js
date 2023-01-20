@@ -45,11 +45,11 @@ export function fetchWithRefresh(url, options) {
   })
 }
 
-export function sendRegistrationRequest(userData) {
+export function sendRegistrationRequestApi(userData) {
   return request(url + 'auth/register', unauthPostOptions(userData))
 }
 
-export function sendAuthorizationRequest(userData) {
+export function sendAuthorizationRequestApi(userData) {
   return request(url + 'auth/login', unauthPostOptions(userData))
 }
 
@@ -61,7 +61,7 @@ export function resetPasswordApi(data) {
   return request(url + 'password-reset/reset', unauthPostOptions(data))
 }
 
-export function getLogoutRequest() {
+export function getLogoutRequestApi() {
   return request(
     url + 'auth/logout',
     unauthPostOptions({
@@ -70,7 +70,7 @@ export function getLogoutRequest() {
   )
 }
 
-export function getBurgerIngredientsRequest() {
+export function getIngredientsRequestApi() {
   return request(url + 'ingredients', {
     method: 'GET',
     headers: {
@@ -100,7 +100,7 @@ export function patchUserApi(userData) {
   })
 }
 
-export function sendOrderRequest(data) {
+export function sendOrderRequestApi(data) {
   return fetchWithRefresh(url + 'orders', {
     method: 'POST',
     headers: {

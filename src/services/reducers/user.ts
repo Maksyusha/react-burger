@@ -15,11 +15,27 @@ import {
   PATCH_USER_SUCCESS,
   PATCH_USER_ERROR,
   AUTH_CHECKED,
-} from '../actions/user.js'
-
+} from '../constants/user'
+import { TUserData } from '../types/data'
+import { TUserActions } from '../actions/user'
 import { setCookie, deleteCookie } from '../utils.js'
 
-const initialState = {
+type TInitialState = {
+  isAuthChecked: boolean
+  registrationRequest: boolean
+  registrationError: boolean
+  authorizationRequest: boolean
+  authorizationError: boolean
+  getLogoutRequest: boolean
+  getLogoutError: boolean
+  getUserDataRequest: boolean
+  getUserDataError: boolean
+  patchUserDataRequest: boolean
+  patchUserDataError: boolean
+  userData: TUserData | null
+}
+
+const initialState: TInitialState = {
   isAuthChecked: false,
   registrationRequest: false,
   registrationError: false,
@@ -34,7 +50,10 @@ const initialState = {
   userData: null,
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (
+  state = initialState,
+  action: TUserActions
+): TInitialState => {
   switch (action.type) {
     case AUTH_CHECKED: {
       return {
@@ -117,7 +136,7 @@ export const userReducer = (state = initialState, action) => {
     case GET_USER_SUCCESS: {
       return {
         ...state,
-        userData: action.user,
+        userData: action.userData,
         getUserDataRequest: false,
       }
     }
@@ -137,7 +156,7 @@ export const userReducer = (state = initialState, action) => {
     case PATCH_USER_SUCCESS: {
       return {
         ...state,
-        userData: action.user,
+        userData: action.userData,
         patchUserDataRequest: false,
       }
     }
@@ -145,7 +164,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         patchUserDataError: true,
-        PATCH_USER_REQUEST: false,
+        patchUserDataRequest: false,
       }
     }
     default: {
