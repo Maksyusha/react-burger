@@ -1,42 +1,53 @@
-import { useMemo } from 'react'
+import { FC, useMemo } from 'react'
 import totalStyles from './total.module.css'
 import {
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-// import { useSelector, useDispatch } from 'react-redux'
-import { useSelector, useDispatch } from '../../../../hooks/hooks'
 import { useLocation, useHistory } from 'react-router-dom'
 import {
   sendOrder,
   showOrderModal,
-} from '../../../../services/actions/order-details'
+} from '../../../../services/slices/order-details-slice'
 import { TIngredient } from '../../../../services/types/data'
+import { useAppSelector, useAppDispatch } from '../../../../hooks/hooks'
 
-function Total() {
-  const { chosenBun, chosenIngredients } = useSelector(
+export const Total: FC = () => {
+  const { chosenBun, chosenIngredients } = useAppSelector(
     (store) => store.burgerConstructor
   )
-  const { orderFailed } = useSelector((store) => store.orderDetails)
-  const { userData } = useSelector((store) => store.user)
+  const { orderFailed } = useAppSelector((store) => store.orderDetails)
+  const { user } = useAppSelector((store) => store.user)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const history = useHistory()
   const location = useLocation()
 
   const handleSubmit = () => {
-    if (!userData) {
+    if (!user) {
       return history.push('/login', { from: location })
     }
 
-    const dataToPost: { ingredients: number[] } = {
-      ingredients: [
-        chosenBun._id,
-        ...chosenIngredients
-          .filter((ingredient: TIngredient) => ingredient.type !== 'bun')
-          .map((ingredient: TIngredient) => ingredient._id),
-        chosenBun._id,
-      ],
+    let dataToPost: { ingredients: string[] }
+
+    if (chosenBun !== null) {
+      dataToPost = {
+        ingredients: [
+          chosenBun._id,
+          ...chosenIngredients
+            .filter((ingredient: TIngredient) => ingredient.type !== 'bun')
+            .map((ingredient: TIngredient) => ingredient._id),
+          chosenBun._id,
+        ],
+      }
+    } else {
+      dataToPost = {
+        ingredients: [
+          ...chosenIngredients
+            .filter((ingredient: TIngredient) => ingredient.type !== 'bun')
+            .map((ingredient: TIngredient) => ingredient._id),
+        ],
+      }
     }
 
     dispatch(sendOrder(dataToPost))
@@ -79,5 +90,3 @@ function Total() {
     </div>
   )
 }
-
-export { Total }

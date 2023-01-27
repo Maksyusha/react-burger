@@ -79,7 +79,7 @@ export function getIngredientsRequestApi() {
   })
 }
 
-export function getUserApi() {
+export function getUserRequestApi() {
   return fetchWithRefresh(url + 'auth/user', {
     method: 'GET',
     headers: {
@@ -89,7 +89,7 @@ export function getUserApi() {
   })
 }
 
-export function patchUserApi(userData) {
+export function patchUserRequestApi(userData) {
   return fetchWithRefresh(url + 'auth/user', {
     method: 'PATCH',
     headers: {

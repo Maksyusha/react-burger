@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { sendOrderRequestApi } from '../api'
+import { getIngredients } from './burger-ingredients-slice'
+import { clearChosenIngredients } from './burger-constructor-slice'
+import { AppThunk } from '../types'
 
 export type TOrderDetailsState = {
   orderNumber: number | null
@@ -24,8 +28,8 @@ export const orderDetailsSlice = createSlice({
       state.orderRequest = true
       state.orderFailed = false
     },
-    sendOrderSuccess(state, action: PayloadAction<number>) {
-      state.orderNumber = action.payload
+    sendOrderSuccess(state, action: PayloadAction<{ orderNumber: number }>) {
+      state.orderNumber = action.payload.orderNumber
       state.orderRequest = false
     },
     sendOrderFailed(state) {
@@ -40,3 +44,17 @@ export const orderDetailsSlice = createSlice({
     },
   },
 })
+
+export const { sendOrderRequest, sendOrderSuccess, sendOrderFailed, showOrderModal, hideOrderModal } =
+  orderDetailsSlice.actions
+
+export const sendOrder = (data: any): AppThunk => (dispatch) => {
+  dispatch(sendOrderRequest())
+  sendOrderRequestApi(data)
+    .then((data) => {
+      dispatch(sendOrderSuccess({ orderNumber: data.order.number }))
+      dispatch(getIngredients())
+      dispatch(clearChosenIngredients())
+    })
+    .catch(() => sendOrderFailed())
+}

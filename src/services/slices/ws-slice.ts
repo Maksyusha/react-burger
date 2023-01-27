@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { TOrderData } from '../types/data'
+import { TOrder, TSortedOrder } from '../types/data'
 
 export type TWsState = {
   wsConnected: boolean
-  orders: TOrderData[] | null
-  sortedOrders: TOrderData[] | null
+  orders: TOrder[] | null
+  sortedOrders: TSortedOrder[] | null
   total: number | null
   totalToday: number | null
 }
@@ -38,7 +38,7 @@ export const wsSlice = createSlice({
     wsGetMessage(
       state,
       action: PayloadAction<{
-        orders: TOrderData[]
+        orders: TOrder[]
         total: number
         totalToday: number
       }>
@@ -47,8 +47,10 @@ export const wsSlice = createSlice({
       state.total = action.payload.total
       state.totalToday = action.payload.totalToday
     },
-    saveSortedOrders(state, action: PayloadAction<{ orders: TOrderData[] }>) {
+    saveSortedOrders(state, action: PayloadAction<{ orders: TSortedOrder[] }>) {
       state.sortedOrders = action.payload.orders
     },
   },
 })
+
+export const { wsConnectionSuccess, wsConnectionClosed, wsConnectionError, wsGetMessage, saveSortedOrders } = wsSlice.actions

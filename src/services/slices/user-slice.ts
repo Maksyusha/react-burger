@@ -1,7 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { TUserData } from '../types/data'
-import { deleteCookie, setCookie } from '../utils'
+import { TUser, TUserResponse } from '../types/data'
+import { deleteCookie, getCookie, setCookie } from '../utils'
+import {
+  getLogoutRequestApi,
+  getUserRequestApi,
+  patchUserRequestApi,
+  sendAuthorizationRequestApi,
+  sendRegistrationRequestApi,
+} from '../api'
+import { AppThunk } from '../types'
 
 export type TUserState = {
   isAuthChecked: boolean
@@ -15,7 +23,7 @@ export type TUserState = {
   getUserFailed: boolean
   patchUserRequest: boolean
   patchUserFailed: boolean
-  userData: TUserData | null
+  user: TUser | null
 }
 
 const initialState: TUserState = {
@@ -30,7 +38,7 @@ const initialState: TUserState = {
   getUserFailed: false,
   patchUserRequest: false,
   patchUserFailed: false,
-  userData: null,
+  user: null,
 }
 
 export const userSlice = createSlice({
@@ -48,16 +56,16 @@ export const userSlice = createSlice({
       action: PayloadAction<{
         accessToken: string
         refreshToken: string
-        user: TUserData
+        user: TUser
       }>
     ) {
       setCookie('accessToken', action.payload.accessToken)
       setCookie('refreshToken', action.payload.refreshToken)
 
       state.registrationRequest = false
-      state.userData = action.payload.user
+      state.user = action.payload.user
     },
-    sendRegistrationFailed(state) {
+    sendRegistrationError(state) {
       state.registrationRequest = false
       state.registrationFailed = true
     },
@@ -69,14 +77,14 @@ export const userSlice = createSlice({
       action: PayloadAction<{
         accessToken: string
         refreshToken: string
-        user: TUserData
+        user: TUser
       }>
     ) {
       setCookie('accessToken', action.payload.accessToken)
       setCookie('refreshToken', action.payload.refreshToken)
 
       state.authorizationRequest = false
-      state.userData = action.payload.user
+      state.user = action.payload.user
     },
     sendAuthorizationError(state) {
       state.authorizationRequest = false
@@ -89,7 +97,7 @@ export const userSlice = createSlice({
       deleteCookie('accessToken')
       deleteCookie('refreshToken')
 
-      state.userData = null
+      state.user = null
       state.getLogoutRequest = false
     },
     getLogoutError(state) {
@@ -99,8 +107,8 @@ export const userSlice = createSlice({
     getUserRequest(state) {
       state.getUserRequest = true
     },
-    getUserSuccess(state, action: PayloadAction<{ userData: TUserData }>) {
-      state.userData = action.payload.userData
+    getUserSuccess(state, action: PayloadAction<{ user: TUser }>) {
+      state.user = action.payload.user
       state.getUserRequest = false
     },
     getUserError(state) {
@@ -110,8 +118,8 @@ export const userSlice = createSlice({
     patchUserRequest(state) {
       state.patchUserRequest = true
     },
-    patchUserSuccess(state, action: PayloadAction<{ userData: TUserData }>) {
-      state.userData = action.payload.userData
+    patchUserSuccess(state, action: PayloadAction<{ user: TUser }>) {
+      state.user = action.payload.user
       state.patchUserRequest = false
     },
     patchUserError(state) {
@@ -120,3 +128,94 @@ export const userSlice = createSlice({
     },
   },
 })
+
+export const {
+  authChecked,
+  sendRegistrationRequest,
+  sendRegistrationSuccess,
+  sendRegistrationError,
+  sendAuthorizationRequest,
+  sendAuthorizationSuccess,
+  sendAuthorizationError,
+  getLogoutRequest,
+  getLogoutSuccess,
+  getLogoutError,
+  getUserRequest,
+  getUserSuccess,
+  getUserError,
+  patchUserRequest,
+  patchUserSuccess,
+  patchUserError,
+} = userSlice.actions
+
+export const sendRegistration = (userData: TUser): AppThunk => (dispatch) => {
+  dispatch(sendRegistrationRequest())
+  sendRegistrationRequestApi(userData)
+    .then((data: TUserResponse) => {
+      dispatch(
+        sendRegistrationSuccess({
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+          user: data.user,
+        })
+      )
+      dispatch(authChecked())
+    })
+    .catch(() => {
+      dispatch(sendRegistrationError())
+      dispatch(authChecked())
+    })
+}
+
+export const sendAuthorization = (userData: TUser): AppThunk => (dispatch) => {
+  dispatch(sendAuthorizationRequest())
+  sendAuthorizationRequestApi(userData)
+    .then((data: TUserResponse) => {
+      dispatch(
+        sendAuthorizationSuccess({
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+          user: data.user,
+        })
+      )
+      dispatch(authChecked())
+    })
+    .catch(() => {
+      dispatch(sendAuthorizationError())
+      dispatch(authChecked())
+    })
+}
+
+export const getLogout = (): AppThunk => (dispatch) => {
+  dispatch(getLogoutRequest())
+  getLogoutRequestApi()
+    .then(() => dispatch(getLogoutSuccess()))
+    .catch(() => dispatch(getLogoutError()))
+}
+
+export const getUser = (): AppThunk => (dispatch) => {
+  dispatch(getUserRequest())
+  getUserRequestApi()
+    .then((data: TUserResponse) =>
+      dispatch(getUserSuccess({ user: data.user }))
+    )
+    .catch(() => dispatch(getUserError()))
+}
+
+export const patchUser = (userData: TUser): AppThunk => (dispatch) => {
+  dispatch(patchUserRequest())
+  patchUserRequestApi(userData)
+    .then((data: TUserResponse) =>
+      dispatch(patchUserSuccess({ user: data.user }))
+    )
+    .catch(() => dispatch(patchUserError()))
+}
+
+export const checkAuth = (): AppThunk => (dispatch) => {
+  if (getCookie('accessToken') || getCookie('refreshToken')) {
+    dispatch(getUser())
+    dispatch(authChecked())
+  } else {
+    dispatch(authChecked())
+  }
+}

@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { TIngredient } from '../types/data'
-import { ingredients } from '../../utils/data'
+import { getIngredientsRequestApi } from '../api'
+import { AppThunk } from '../types'
 
 export type TBurgerIngredientsState = {
   ingredients: TIngredient[]
@@ -24,10 +25,12 @@ export const burgerIngredientsSlice = createSlice({
     },
     getIngredientsSuccess: (
       state,
-      action: PayloadAction<TIngredient[]>
+      action: PayloadAction<{ ingredients: TIngredient[] }>
     ) => {
       state.ingredientsRequest = false
-      state.ingredients = action.payload
+      state.ingredients = action.payload.ingredients.map((ingredient) => {
+        return { ...ingredient, qty: 0 }
+      })
     },
     getIngredientsError: (state) => {
       state.ingredientsRequest = false
@@ -35,18 +38,18 @@ export const burgerIngredientsSlice = createSlice({
     },
     increaseIngredientValue: (
       state,
-      action: PayloadAction<TIngredient>
+      action: PayloadAction<{ ingredient: TIngredient }>
     ) => {
-      if (action.payload.type === 'bun') {
+      if (action.payload.ingredient.type === 'bun') {
         for (let i: number = 0; i <= state.ingredients.length; i++) {
-          if ((state.ingredients[i]._id = action.payload._id)) {
+          if ((state.ingredients[i]._id = action.payload.ingredient._id)) {
             state.ingredients[i].qty = 1
             break
           }
         }
       } else {
         for (let i: number = 0; i <= state.ingredients.length; i++) {
-          if ((state.ingredients[i]._id = action.payload._id)) {
+          if ((state.ingredients[i]._id = action.payload.ingredient._id)) {
             state.ingredients[i].qty += 1
             break
           }
@@ -55,18 +58,18 @@ export const burgerIngredientsSlice = createSlice({
     },
     decreaseIngredientValue: (
       state,
-      action: PayloadAction<TIngredient & { qty: 0 }>
+      action: PayloadAction<{ ingredient: TIngredient }>
     ) => {
-      if (action.payload.type === 'bun') {
+      if (action.payload.ingredient.type === 'bun') {
         for (let i: number = 0; i <= state.ingredients.length; i++) {
-          if ((state.ingredients[i]._id = action.payload._id)) {
+          if ((state.ingredients[i]._id = action.payload.ingredient._id)) {
             state.ingredients[i].qty = 0
             break
           }
         }
       } else {
         for (let i: number = 0; i <= state.ingredients.length; i++) {
-          if ((state.ingredients[i]._id = action.payload._id)) {
+          if ((state.ingredients[i]._id = action.payload.ingredient._id)) {
             state.ingredients[i].qty -= 1
             break
           }
@@ -75,3 +78,18 @@ export const burgerIngredientsSlice = createSlice({
     },
   },
 })
+
+export const {
+  getIngredientsRequest,
+  getIngredientsSuccess,
+  getIngredientsError,
+  increaseIngredientValue,
+  decreaseIngredientValue,
+} = burgerIngredientsSlice.actions
+
+export const getIngredients = (): AppThunk => (dispatch) => {
+  dispatch(getIngredientsRequest())
+  getIngredientsRequestApi()
+    .then((res) => dispatch(getIngredientsSuccess({ ingredients: res.data })))
+    .catch(() => dispatch(getIngredientsError()))
+}

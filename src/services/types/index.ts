@@ -1,25 +1,14 @@
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
+import { AnyAction, ThunkAction } from '@reduxjs/toolkit'
 import { store } from '../store'
-import { TBurgerConstructorActions } from '../actions/burger-constructor'
-import { TBurgerIngredientsActions } from '../actions/burger-ingredients'
-import { TOrderDetailsActions } from '../actions/order-details'
-import { TUserActions } from '../actions/user'
-import { TWsActions } from '../actions/ws-actions'
+import { TUser } from './data'
 
 export type RootState = ReturnType<typeof store.getState>
 
-type TAppActions =
-  | TBurgerConstructorActions
-  | TBurgerIngredientsActions
-  | TOrderDetailsActions
-  | TUserActions
-  | TWsActions
 
+export type AppDispatch = typeof store.dispatch
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
   unknown,
-  TAppActions
+  AnyAction
 >
-
-export type AppDispatch = ThunkDispatch<RootState, never, TAppActions>

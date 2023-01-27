@@ -1,10 +1,10 @@
 import { AppHeader } from '../app-header/app-header'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch, useLocation, useRouteMatch } from 'react-router-dom'
-import { checkAuth } from '../../services/actions/user'
-import { getBurgerIngredients } from '../../services/actions/burger-ingredients'
-import { hideOrderModal } from '../../services/actions/order-details'
+import { Location } from 'history'
+import { checkAuth } from '../../services/slices/user-slice'
+import { getIngredients } from '../../services/slices/burger-ingredients-slice'
+import { hideOrderModal } from '../../services/slices/order-details-slice'
 import HomePage from '../../pages/home-page/home-page'
 import LoginPage from '../../pages/login-page/login-page'
 import RegisterPage from '../../pages/register-page/register-page'
@@ -23,17 +23,18 @@ import {
   saveSortedOrders,
   wsClose,
   wsConnect,
-} from '../../services/actions/ws-actions'
+} from '../../services/slices/ws-slice'
 import { wsUrl } from '../../services/api'
 import { getCookie } from '../../services/utils'
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
 
 function App() {
-  const { orderNumber, orderFailed, orderModalIsOpened } = useSelector(
+  const { orderNumber, orderFailed, orderModalIsOpened } = useAppSelector(
     (store) => store.orderDetails
   )
-  const { ingredients } = useSelector((store) => store.burgerIngredients)
-  const { orders } = useSelector((store) => store.ws)
-  const dispatch = useDispatch()
+  const { ingredients } = useAppSelector((store) => store.burgerIngredients)
+  const { orders } = useAppSelector((store) => store.ws)
+  const dispatch = useAppDispatch()
   const location = useLocation()
   const isProfileRoute = useRouteMatch('/profile/orders') ? true : false
   const isFeedRoute = useRouteMatch('/feed') ? true : false
@@ -88,21 +89,21 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuth())
-    dispatch(getBurgerIngredients())
+    dispatch(getIngredients())
   }, [dispatch])
 
-  useEffect(() => { // И вправду забыл, довольно глупо получилось)
-    if (isProfileRoute) {
-      dispatch(wsConnect(`${wsUrl}?token=${accessToken}`))
-    }
-    if (isFeedRoute) {
-      dispatch(wsConnect(`${wsUrl}/all`))
-    }
+  // useEffect(() => {
+  //   if (isProfileRoute) {
+  //     dispatch(wsConnect(`${wsUrl}?token=${accessToken}`))
+  //   }
+  //   if (isFeedRoute) {
+  //     dispatch(wsConnect(`${wsUrl}/all`))
+  //   }
 
-    return () => {
-      dispatch(wsClose())
-    }
-  }, [isProfileRoute, isFeedRoute, accessToken, dispatch])
+  //   return () => {
+  //     dispatch(wsClose())
+  //   }
+  // }, [isProfileRoute, isFeedRoute, accessToken, dispatch])
 
   useEffect(() => {
     if (orders) {

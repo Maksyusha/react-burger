@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { v4 as uuidv4 } from 'uuid'
 import { TIngredient } from '../types/data'
 
 export type TBurgerConstructor = {
@@ -16,14 +17,20 @@ export const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
   initialState,
   reducers: {
-    addChosenIngredient(state, action: PayloadAction<TIngredient>) {
-      if (action.payload.type === 'bun') {
-        state.chosenBun = action.payload
+    addChosenIngredient(
+      state,
+      action: PayloadAction<{ ingredient: TIngredient }>
+    ) {
+      if (action.payload.ingredient.type === 'bun') {
+        state.chosenBun = action.payload.ingredient
       }
-      state.chosenIngredients.push(action.payload)
+      state.chosenIngredients.push({
+        ...action.payload.ingredient,
+        key: uuidv4(),
+      })
     },
-    deleteChosenIngredient(state, action: PayloadAction<number>) {
-      state.chosenIngredients.splice(action.payload, 1)
+    deleteChosenIngredient(state, action: PayloadAction<{ index: number }>) {
+      state.chosenIngredients.splice(action.payload.index, 1)
     },
     sortChosenIngredients(
       state,
@@ -41,7 +48,15 @@ export const burgerConstructorSlice = createSlice({
       )
     },
     clearChosenIngredients(state) {
-      ;(state.chosenBun = null), (state.chosenIngredients = [])
+      state.chosenBun = null
+      state.chosenIngredients = []
     },
   },
 })
+
+export const {
+  addChosenIngredient,
+  deleteChosenIngredient,
+  sortChosenIngredients,
+  clearChosenIngredients,
+} = burgerConstructorSlice.actions
