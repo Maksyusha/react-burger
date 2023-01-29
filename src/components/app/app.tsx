@@ -1,5 +1,5 @@
 import { AppHeader } from '../app-header/app-header'
-import { useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { Route, Switch, useLocation, useRouteMatch } from 'react-router-dom'
 import { Location } from 'history'
 import { checkAuth } from '../../services/slices/user-slice'
@@ -19,69 +19,22 @@ import { Order } from '../order/order'
 import { NotFound } from '../not-found/not-found'
 import { Preloader } from '../preloader/preloader'
 import OrdersPage from '../../pages/orders-page/orders-page'
-import {
-  saveSortedOrders,
-  wsClose,
-  wsConnect,
-} from '../../services/slices/ws-slice'
+import { wsClose, wsConnect } from '../../services/slices/ws-slice'
 import { wsUrl } from '../../services/api'
 import { getCookie } from '../../services/utils'
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
+import { clearFeedState } from '../../services/slices/feed-slice'
 
-function App() {
+const App: FC = () => {
   const { orderNumber, orderFailed, orderModalIsOpened } = useAppSelector(
     (store) => store.orderDetails
   )
-  const { ingredients } = useAppSelector((store) => store.burgerIngredients)
-  const { orders } = useAppSelector((store) => store.ws)
   const dispatch = useAppDispatch()
-  const location = useLocation()
+  const location = useLocation<{ background: Location }>()
   const isProfileRoute = useRouteMatch('/profile/orders') ? true : false
   const isFeedRoute = useRouteMatch('/feed') ? true : false
   const background = location.state?.background
   const accessToken = getCookie('accessToken')?.slice(7)
-
-  const findIngredientsData = (data, dataToFind) => {
-    const result = []
-    let totalPrice = null
-    const status =
-      dataToFind.status === 'done'
-        ? { done: 'Выполнен' }
-        : dataToFind.status === 'created'
-        ? { created: 'Создан' }
-        : { pending: 'Готовится' }
-
-    dataToFind.ingredients.forEach((itemToFind) => {
-      const itemFound = data.find((item) => item._id === itemToFind)
-      const indexOfExistingItem = result?.findIndex(
-        (item) => item.id === itemFound._id
-      )
-
-      if (indexOfExistingItem !== -1) {
-        result[indexOfExistingItem].qty += 1
-        return
-      }
-
-      const itemToAdd = {
-        id: itemFound._id,
-        image: itemFound.image,
-        name: itemFound.name,
-        price: itemFound.price,
-        type: itemFound.type,
-        qty: 1,
-      }
-
-      if (itemFound.type !== 'bun') {
-        result.push(itemToAdd)
-        totalPrice += itemToAdd.price
-      } else {
-        result.splice(0, 0, itemToAdd)
-        totalPrice += itemToAdd.price * 2
-      }
-    })
-
-    return { ...dataToFind, status, price: totalPrice, ingredients: result }
-  }
 
   function closeOrderModal() {
     dispatch(hideOrderModal())
@@ -92,28 +45,19 @@ function App() {
     dispatch(getIngredients())
   }, [dispatch])
 
-  // useEffect(() => {
-  //   if (isProfileRoute) {
-  //     dispatch(wsConnect(`${wsUrl}?token=${accessToken}`))
-  //   }
-  //   if (isFeedRoute) {
-  //     dispatch(wsConnect(`${wsUrl}/all`))
-  //   }
-
-  //   return () => {
-  //     dispatch(wsClose())
-  //   }
-  // }, [isProfileRoute, isFeedRoute, accessToken, dispatch])
-
   useEffect(() => {
-    if (orders) {
-      dispatch(
-        saveSortedOrders(
-          orders.map((order) => findIngredientsData(ingredients, order))
-        )
-      )
+    if (isProfileRoute) {
+      dispatch(wsConnect(`${wsUrl}?token=${accessToken}`))
     }
-  }, [orders, ingredients, dispatch])
+    if (isFeedRoute) {
+      dispatch(wsConnect(`${wsUrl}/all`))
+    }
+
+    return () => {
+      dispatch(wsClose())
+      dispatch(clearFeedState())
+    }
+  }, [isProfileRoute, isFeedRoute, accessToken, dispatch])
 
   return (
     <>

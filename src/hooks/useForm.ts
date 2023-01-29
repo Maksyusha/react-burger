@@ -1,13 +1,6 @@
 import { useState, ChangeEvent } from 'react'
 
-type TValues = {
-  name?: string
-  email?: string
-  password?: string
-  token?: string
-}
-
-export function useForm(inputValues: TValues) {
+export function useForm<T>(inputValues: T) {
   const [values, setValues] = useState(inputValues)
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {

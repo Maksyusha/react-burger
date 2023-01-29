@@ -4,9 +4,11 @@ import { useParams } from 'react-router-dom'
 import { Preloader } from '../preloader/preloader'
 import { useAppSelector } from '../../hooks/hooks'
 
-export const IngredientDetails: FC<{
-  titlePositionCenter: boolean
-}> = ({ titlePositionCenter }) => {
+type TIngredientDetailsProps = {
+  titlePositionCenter?: boolean
+}
+
+export const IngredientDetails: FC<TIngredientDetailsProps> = ({ titlePositionCenter }) => {
   const { ingredients } = useAppSelector((store) => store.burgerIngredients)
   const { id }: { id: string } = useParams()
 

@@ -1,13 +1,15 @@
 import { FC } from 'react'
 import { Link, useRouteMatch } from 'react-router-dom'
+import { useAppDispatch } from '../../hooks/hooks'
 import { getLogout } from '../../services/slices/user-slice'
 import styles from './protected-links.module.css'
 
 const ProtectedLinks: FC = () => {
   const match = useRouteMatch('/profile/orders') ? 'orders' : 'profile'
+  const dispatch = useAppDispatch()
 
   function handleLogout() {
-    getLogout()
+    dispatch(getLogout())
   }
 
   return (

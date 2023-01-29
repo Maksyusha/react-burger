@@ -1,4 +1,4 @@
-import { useRef, FC, createRef, RefObject } from 'react'
+import { useRef, FC, createRef, RefObject, MutableRefObject } from 'react'
 import itemStyles from './burger-item.module.css'
 import {
   ConstructorElement,
@@ -14,7 +14,7 @@ import {
 import { TIngredient } from '../../../../services/types/data'
 
 type TBurgerItemProps = {
-  item: TIngredient & { index: number }
+  item: TIngredient & { index?: number }
   index: number
 }
 
@@ -26,12 +26,16 @@ export const BurgerItem: FC<TBurgerItemProps> = ({ item, index }) => {
     dispatch(deleteChosenIngredient({ index }))
   }
 
-  const ref: RefObject<HTMLLIElement> = createRef()
+  const ref: MutableRefObject<HTMLLIElement | null> = useRef(null)
 
   const [, dropRef] = useDrop({
     accept: 'constructorItem',
-    hover(item: {index: number}, monitor) {
+    hover(item: TIngredient & { index: number }, monitor) {
       if (!ref.current) {
+        return
+      }
+
+      if (!item.index) {
         return
       }
 

@@ -40,16 +40,18 @@ export const burgerIngredientsSlice = createSlice({
       state,
       action: PayloadAction<{ ingredient: TIngredient }>
     ) => {
+      const ingredient = action.payload.ingredient
       if (action.payload.ingredient.type === 'bun') {
-        for (let i: number = 0; i <= state.ingredients.length; i++) {
-          if ((state.ingredients[i]._id = action.payload.ingredient._id)) {
-            state.ingredients[i].qty = 1
-            break
+        for (let i: number = 0; i < state.ingredients.length; i++) {
+          if (state.ingredients[i].type === 'bun') {
+            state.ingredients[i]._id !== ingredient._id
+              ? (state.ingredients[i].qty = 0)
+              : (state.ingredients[i].qty = 1)
           }
         }
       } else {
-        for (let i: number = 0; i <= state.ingredients.length; i++) {
-          if ((state.ingredients[i]._id = action.payload.ingredient._id)) {
+        for (let i: number = 0; i < state.ingredients.length; i++) {
+          if (state.ingredients[i]._id === ingredient._id) {
             state.ingredients[i].qty += 1
             break
           }
@@ -60,19 +62,10 @@ export const burgerIngredientsSlice = createSlice({
       state,
       action: PayloadAction<{ ingredient: TIngredient }>
     ) => {
-      if (action.payload.ingredient.type === 'bun') {
-        for (let i: number = 0; i <= state.ingredients.length; i++) {
-          if ((state.ingredients[i]._id = action.payload.ingredient._id)) {
-            state.ingredients[i].qty = 0
-            break
-          }
-        }
-      } else {
-        for (let i: number = 0; i <= state.ingredients.length; i++) {
-          if ((state.ingredients[i]._id = action.payload.ingredient._id)) {
-            state.ingredients[i].qty -= 1
-            break
-          }
+      for (let i: number = 0; i < state.ingredients.length; i++) {
+        if (state.ingredients[i]._id === action.payload.ingredient._id) {
+          state.ingredients[i].qty -= 1
+          break
         }
       }
     },

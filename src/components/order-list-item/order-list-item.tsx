@@ -10,12 +10,12 @@ import { TSortedOrder } from '../../services/types/data'
 
 type TOrderListItemProps = {
   order: TSortedOrder
-  status?: {[key: string]: string}
+  showStatus?: boolean
   isProtectedPath?: boolean
 }
 
-export const OrderListItem: FC<TOrderListItemProps> = ({ order, status, isProtectedPath }) => {
-  const { _id, number, createdAt, name, price, ingredients } = order
+export const OrderListItem: FC<TOrderListItemProps> = ({ order, showStatus, isProtectedPath }) => {
+  const { _id, number, createdAt, name, price, status, ingredients } = order
   const location = useLocation()
 
   const path = isProtectedPath ? '/profile/orders/' : '/feed/'
@@ -42,13 +42,13 @@ export const OrderListItem: FC<TOrderListItemProps> = ({ order, status, isProtec
           <li>
             <p className="text text_type_main-medium">{name}</p>
           </li>
-          {status ? (
+          {showStatus ? (
             <li className="mt-2">
               <p
                 className="text text_type_main-default"
-                style={status.done ? { color: '#00CCCC' } : undefined}
+                style={status === 'Выполнен' ? { color: '#00CCCC' } : undefined}
               >
-                {status[Object.keys(status)[0]]}
+                {status}
               </p>
             </li>
           ) : null}

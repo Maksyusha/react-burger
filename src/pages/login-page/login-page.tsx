@@ -7,7 +7,7 @@ import {
 import { Redirect, Link, useLocation } from 'react-router-dom'
 import { sendAuthorization } from '../../services/slices/user-slice'
 import { useForm } from '../../hooks/useForm'
-import { useAppSelector } from '../../hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
 import { ChangeEvent, FC } from 'react'
 import { Location } from 'history'
 
@@ -17,7 +17,7 @@ const LoginPage: FC = () => {
     email: '',
     password: '',
   })
-
+  const dispatch = useAppDispatch()
   const location = useLocation<{ from: Location }>()
 
   const handleSubmit = (evt: ChangeEvent<HTMLFormElement>) => {
@@ -25,7 +25,7 @@ const LoginPage: FC = () => {
     if (!values.email || !values.password) {
       return
     }
-    sendAuthorization(values)
+    dispatch(sendAuthorization(values))
   }
 
   if (user) {

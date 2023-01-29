@@ -1,15 +1,16 @@
-export function getCookie(name) {
+/* eslint-disable */
+export function getCookie(name: string) {
   const matches = document.cookie.match(
     new RegExp(
-      '(?:^|; )' + // eslint-disable-next-line react-hooks/exhaustive-deps
-        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + //TODO линтер ругался на символы
+      '(?:^|; )' +
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
         '=([^;]*)'
     )
   )
   return matches ? decodeURIComponent(matches[1]) : undefined
 }
 
-export function setCookie(name, value, props) {
+export function setCookie(name: string, value: string, props?: any) {
   props = {
     ...props,
     path: '/',
@@ -35,6 +36,6 @@ export function setCookie(name, value, props) {
   document.cookie = updatedCookie
 }
 
-export function deleteCookie(name) {
-  setCookie(name, null, { expires: -1 })
+export function deleteCookie(name: string) {
+  setCookie(name, '', { expires: -1 })
 }

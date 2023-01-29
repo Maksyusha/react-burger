@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { sendRegistration } from '../../services/slices/user-slice'
 import { useForm } from '../../hooks/useForm'
 import { ChangeEvent, FC } from 'react'
+import { useAppDispatch } from '../../hooks/hooks'
 
 const RegisterPage: FC = () => {
   const { values, handleChange } = useForm({
@@ -16,13 +17,14 @@ const RegisterPage: FC = () => {
     email: '',
     password: '',
   })
+  const dispatch = useAppDispatch()
 
   const handleSubmit = (evt: ChangeEvent<HTMLFormElement>) => {
     evt.preventDefault()
     if (!values.name || !values.email || !values.password) {
       return
     }
-    sendRegistration(values)
+    dispatch(sendRegistration(values))
   }
 
   return (

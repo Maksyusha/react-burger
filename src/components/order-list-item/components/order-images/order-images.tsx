@@ -1,9 +1,9 @@
 import { FC } from 'react'
-import { TIngredient } from '../../../../services/types/data'
+import { TIngredient, TSortedIngredient } from '../../../../services/types/data'
 import styles from './order-images.module.css'
 
 type TOrderImagesProps = {
-  ingredients: TIngredient[]
+  ingredients: TSortedIngredient[]
 }
 
 const OrderImages: FC<TOrderImagesProps> = ({ ingredients }) => {

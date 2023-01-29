@@ -9,9 +9,9 @@ import { Preloader } from '../preloader/preloader'
 import { useAppSelector } from '../../hooks/hooks'
 
 export const Order: FC<{
-  titlePositionCenter: boolean
+  titlePositionCenter?: boolean
 }> = ({ titlePositionCenter }) => {
-  const { sortedOrders } = useAppSelector((store) => store.ws)
+  const { sortedOrders } = useAppSelector((store) => store.feed)
   const { id }: { id: string } = useParams()
 
   if (!sortedOrders) {
@@ -35,9 +35,9 @@ export const Order: FC<{
         <li className={`${styles['order__list-item']} mb-15`}>
           <p
             className="text text_type_main-default"
-            style={order?.status.done ? { color: '#00CCCC' } : undefined}
+            style={order?.status === 'Выполнен' ? { color: '#00CCCC' } : undefined}
           >
-            {order?.status[Object.keys(order?.status)[0]]}
+            {order?.status}
           </p>
         </li>
         <li className={`${styles['order__list-item']} mb-6`}>

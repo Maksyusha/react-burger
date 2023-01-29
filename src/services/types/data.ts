@@ -28,28 +28,34 @@ export type TUserResponse = {
   refreshToken: string
 }
 
-export type TOrder = {
+export type TSortedIngredient = {
+  _id: string
+  image: string
   name: string
   price: number
-  ingredients: string[]
-  _id: string
-  status: {[key: string]: string}
-  number: number
-  createdAt: string
-  updatedAt: string
+  type: string
+  qty: number
 }
 
-// export type TSortedOrder = Omit<TOrder, 'ingredients'>[] & {ingredients: TIngredient[]}
-
 export type TSortedOrder = {
-  name: string
-  price: number
-  ingredients: TIngredient[]
   _id: string
-  status: {[key: string]: string}
+  name: string
+  status: string
   number: number
   createdAt: string
   updatedAt: string
+  ingredients: TSortedIngredient[]
+  price: number
+}
+
+export type TOrder = {
+  createdAt: string,
+  ingredients: string[]
+  name: string
+  number: number
+  status: string
+  updatedAt: string
+  _id: string
 }
 
 export type TOrdersResponse = {

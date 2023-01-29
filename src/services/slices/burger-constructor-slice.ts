@@ -21,13 +21,14 @@ export const burgerConstructorSlice = createSlice({
       state,
       action: PayloadAction<{ ingredient: TIngredient }>
     ) {
-      if (action.payload.ingredient.type === 'bun') {
+      if (action.payload.ingredient.type !== 'bun') {
+        state.chosenIngredients.push({
+          ...action.payload.ingredient,
+          key: uuidv4(),
+        })
+      } else {
         state.chosenBun = action.payload.ingredient
       }
-      state.chosenIngredients.push({
-        ...action.payload.ingredient,
-        key: uuidv4(),
-      })
     },
     deleteChosenIngredient(state, action: PayloadAction<{ index: number }>) {
       state.chosenIngredients.splice(action.payload.index, 1)

@@ -1,10 +1,20 @@
+import { TUser } from './types/data'
 import { getCookie, setCookie } from './utils'
+
+type TOptions = {
+  method: 'POST' | 'PATCH' | 'GET'
+  headers: {
+    'Content-type': 'application/json'
+    authorization?: string
+  }
+  body?: string
+}
 
 export const wsUrl = 'wss://norma.nomoreparties.space/orders'
 
-const url = 'https://norma.nomoreparties.space/api/'
+export const url = 'https://norma.nomoreparties.space/api/'
 
-function unauthPostOptions(data) {
+function unauthPostOptions(data: {token: string | undefined} | TUser): TOptions {
   return {
     method: 'POST',
     headers: {
@@ -14,11 +24,12 @@ function unauthPostOptions(data) {
   }
 }
 
-function onResponse(res) {
+function onResponse(res: Response) {
+  console.log(res)
   return res.ok ? res.json() : Promise.reject(res.status)
 }
 
-function request(url, options) {
+function request(url: string, options: TOptions) {
   return fetch(url, options).then(onResponse)
 }
 
@@ -34,7 +45,7 @@ export function refreshToken() {
   })
 }
 
-export function fetchWithRefresh(url, options) {
+export function fetchWithRefresh(url: string, options: TOptions) {
   return request(url, options).catch((err) => {
     if (err === 401) {
       refreshToken().then(() => {
@@ -45,19 +56,19 @@ export function fetchWithRefresh(url, options) {
   })
 }
 
-export function sendRegistrationRequestApi(userData) {
+export function sendRegistrationRequestApi(userData: TUser) {
   return request(url + 'auth/register', unauthPostOptions(userData))
 }
 
-export function sendAuthorizationRequestApi(userData) {
+export function sendAuthorizationRequestApi(userData: TUser) {
   return request(url + 'auth/login', unauthPostOptions(userData))
 }
 
-export function forgotPasswordApi(email) {
+export function forgotPasswordApi(email: {email: string}) {
   return request(url + 'password-reset', unauthPostOptions(email))
 }
 
-export function resetPasswordApi(data) {
+export function resetPasswordApi(data: TUser) {
   return request(url + 'password-reset/reset', unauthPostOptions(data))
 }
 
@@ -89,7 +100,7 @@ export function getUserRequestApi() {
   })
 }
 
-export function patchUserRequestApi(userData) {
+export function patchUserRequestApi(userData: TUser) {
   return fetchWithRefresh(url + 'auth/user', {
     method: 'PATCH',
     headers: {
@@ -100,13 +111,13 @@ export function patchUserRequestApi(userData) {
   })
 }
 
-export function sendOrderRequestApi(data) {
+export function sendOrderRequestApi(ingredients: {ingredients: string[]}) {
   return fetchWithRefresh(url + 'orders', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
       authorization: getCookie('accessToken'),
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(ingredients),
   })
 }

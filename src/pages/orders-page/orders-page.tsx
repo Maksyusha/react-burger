@@ -9,7 +9,7 @@ import { FC } from 'react'
 
 const OrdersPage: FC = () => {
   const { sortedOrders, total, totalToday } = useAppSelector(
-    (store) => store.ws
+    (store) => store.feed
   )
   const match = useRouteMatch('/profile/orders')?.isExact
 
@@ -25,12 +25,12 @@ const OrdersPage: FC = () => {
         </div>
         {sortedOrders ? (
           <ul className={`${styles['orders-page__list']} mt-10`}>
-            {[...sortedOrders].reverse().map((order) => {
+            {[...sortedOrders].reverse().map((sortedOrder) => {
               return (
                 <OrderListItem
-                  key={order._id}
-                  order={order}
-                  status={order.status}
+                  key={sortedOrder._id}
+                  order={sortedOrder}
+                  showStatus={true}
                   isProtectedPath={true}
                 />
               )

@@ -1,56 +1,46 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { TOrder, TSortedOrder } from '../types/data'
 
-export type TWsState = {
+type TWsState = {
+  wsConnecting: boolean
+  wsClosing: boolean
   wsConnected: boolean
-  orders: TOrder[] | null
-  sortedOrders: TSortedOrder[] | null
-  total: number | null
-  totalToday: number | null
 }
 
 const initialState: TWsState = {
+  wsConnecting: false,
+  wsClosing: false,
   wsConnected: false,
-  orders: null,
-  sortedOrders: null,
-  total: null,
-  totalToday: null,
 }
 
 export const wsSlice = createSlice({
   name: 'ws',
   initialState,
   reducers: {
+    wsConnect(state, action: PayloadAction<string>) {
+      state.wsConnecting = true
+    },
     wsConnectionSuccess(state) {
+      state.wsConnecting = false
       state.wsConnected = true
     },
     wsConnectionError(state) {
       state.wsConnected = false
     },
+    wsClose(state) {
+      state.wsClosing = true
+    },
     wsConnectionClosed(state) {
+      state.wsClosing = false
       state.wsConnected = false
-      state.orders = null
-      state.sortedOrders = null
-      state.total = null
-      state.totalToday = null
-    },
-    wsGetMessage(
-      state,
-      action: PayloadAction<{
-        orders: TOrder[]
-        total: number
-        totalToday: number
-      }>
-    ) {
-      state.orders = action.payload.orders
-      state.total = action.payload.total
-      state.totalToday = action.payload.totalToday
-    },
-    saveSortedOrders(state, action: PayloadAction<{ orders: TSortedOrder[] }>) {
-      state.sortedOrders = action.payload.orders
     },
   },
 })
 
-export const { wsConnectionSuccess, wsConnectionClosed, wsConnectionError, wsGetMessage, saveSortedOrders } = wsSlice.actions
+export const {
+  wsConnect,
+  wsConnectionSuccess,
+  wsConnectionError,
+  wsClose,
+  wsConnectionClosed,
+} = wsSlice.actions

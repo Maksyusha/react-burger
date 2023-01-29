@@ -10,7 +10,7 @@ import { NotFound } from '../not-found/not-found'
 const modalsContainer = document.querySelector('#modals')
 
 type TModalProps = {
-  onClose: undefined | (() => void)
+  onClose?: undefined | (() => void)
   children: JSX.Element
 }
 

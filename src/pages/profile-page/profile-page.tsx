@@ -10,7 +10,7 @@ import {
 import { patchUser } from '../../services/slices/user-slice'
 import { useForm } from '../../hooks/useForm'
 import { ProtectedLinks } from '../../components/protected-links/protected-links'
-import { useAppSelector } from '../../hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
 
 const ProfilePage: FC = () => {
   const { user } = useAppSelector((store) => store.user)
@@ -18,6 +18,7 @@ const ProfilePage: FC = () => {
     ...user,
     password: '',
   })
+  const dispatch = useAppDispatch()
 
   function handleCancel() {
     setValues({ ...user, password: '' })
@@ -25,7 +26,7 @@ const ProfilePage: FC = () => {
 
   function handleSubmit(evt: ChangeEvent<HTMLFormElement>) {
     evt.preventDefault()
-    patchUser(values)
+    dispatch(patchUser(values))
   }
 
   return (
@@ -40,16 +41,17 @@ const ProfilePage: FC = () => {
             icon="EditIcon"
             onChange={handleChange}
           />
-          <EmailInput
+          <Input
             name="email"
             value={values.email || ''}
             placeholder="Логин"
-            isIcon={true}
+            icon="EditIcon"
             onChange={handleChange}
           />
-          <PasswordInput
+          <Input
             name="password"
             value={values.password || ''}
+            placeholder="Пароль"
             icon="EditIcon"
             onChange={handleChange}
           />
