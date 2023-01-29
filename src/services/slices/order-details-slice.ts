@@ -48,7 +48,7 @@ export const orderDetailsSlice = createSlice({
 export const { sendOrderRequest, sendOrderSuccess, sendOrderFailed, showOrderModal, hideOrderModal } =
   orderDetailsSlice.actions
 
-export const sendOrder = (data: any): AppThunk => (dispatch) => {
+export const sendOrder = (data: {ingredients: string[]}): AppThunk => (dispatch) => {
   dispatch(sendOrderRequest())
   sendOrderRequestApi(data)
     .then((data) => {
